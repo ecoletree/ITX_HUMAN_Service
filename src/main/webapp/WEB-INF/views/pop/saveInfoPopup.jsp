@@ -186,10 +186,19 @@
 							<select id="historyPopup_selExec_state" ><option>선택해주세요</option></select>
 						</div>
 					</div>
-					<div class="bxMemo">
-						<span>상담메모 |</span>
-						<textarea id="historyPopup_taCr_mm" rows="" cols="" ></textarea>
-						<textarea id="historyPopup_taCr_mm_add" rows="" cols="" ></textarea>
+					<div class="row">
+						<div class="col-xs-6">
+							<div class="bxMemo">
+								<span>민원인 상담내용 |</span>
+								<textarea id="historyPopup_taCr_mm" rows="" cols="" ></textarea>
+							</div>
+						</div>
+						<div class="col-xs-6">
+							<div class="bxMemo">
+								<span>상담사 답변 |</span>
+								<textarea id="historyPopup_taCr_mm_add" rows="" cols="" ></textarea>
+							</div>
+						</div>
 					</div>
 				</div><!-- ./wallBody -->
 			</div>

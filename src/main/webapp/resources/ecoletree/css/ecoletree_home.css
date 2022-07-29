@@ -22,7 +22,7 @@
     margin-left:  5px;
     margin-bottom: 10px;
 }
-.bxBpMainWrap .col-xs-2, .bxBpMainWrap .col-xs-3, .bxBpMainWrap .col-xs-4, .bxBpMainWrap .col-xs-9, .bxBpMainWrap .col-xs-10, .bxBpMainWrap .col-xs-12{
+.bxBpMainWrap .col-xs-2, .bxBpMainWrap .col-xs-3, .bxBpMainWrap .col-xs-4, .bxBpMainWrap .col-xs-6, .bxBpMainWrap .col-xs-9, .bxBpMainWrap .col-xs-10, .bxBpMainWrap .col-xs-12{
 	padding-left: 2px;
 	padding-right: 5px;
 	padding-bottom: 5px;
@@ -42,7 +42,7 @@
 .contentPop .dataTables_wrapper .row{
     margin-bottom: 0px;
 }
-.contentPop .col-xs-3, .contentPop .col-xs-4, .contentPop .col-xs-9, .contentPop .col-xs-12{
+.contentPop .col-xs-3, .contentPop .col-xs-4,.contentPop .col-xs-6, .contentPop .col-xs-9, .contentPop .col-xs-12{
 	padding-left: 2px;
 	padding-right: 5px;
 	padding-bottom: 5px;
@@ -383,6 +383,7 @@
 	flex: 1 1 50px;
 	overflow: hidden;
 }
+
 .bxMemo{
 	display: flex;
 	flex: 1 0 115px;
@@ -393,11 +394,16 @@
 	margin: 0px 5px 5px;
 	padding: 5px;
 }
-
+.row .bxMemo{
+	margin: 0px 0px 0px;
+} 
 .bxMemo textarea{
 	flex: 1 1 auto;
 	border: 0px solid;
 	padding: 0px 3px;
+}
+.bxMemo textarea+textarea{
+	border-left: 1px solid #abb6bb;
 }
 
 .bxBpCallMemoWrap .row{
