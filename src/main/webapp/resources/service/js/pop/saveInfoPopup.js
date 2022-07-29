@@ -661,8 +661,8 @@
 			codeList = et.getCodeAllList("010", selCd1);
 			et.makeSelectOption(null, {value:"item3",text:"item_nm"},"#historyPopup_selCrCd3","선택해주세요");
 			$("#historyPopup_selCrCd3").find("option:eq(0)").prop("selected", true);
-			et.makeSelectOption(null, {value:"item4",text:"item_nm"},"#historyPopup_selCrCd4","선택해주세요");
-			$("#historyPopup_selCrCd4").find("option:eq(0)").prop("selected", true);
+//			et.makeSelectOption(null, {value:"item4",text:"item_nm"},"#historyPopup_selCrCd4","선택해주세요");
+//			$("#historyPopup_selCrCd4").find("option:eq(0)").prop("selected", true);
 			if (!!codeList) {
 				et.makeSelectOption(codeList, {value:"item2",text:"item_nm"},"#historyPopup_selCrCd2","선택해주세요");
 				$("#historyPopup_selCrCd2").find("option:eq(0)").prop("selected", true);
@@ -673,8 +673,8 @@
 			}
 		} else if (num === "2") {
 			codeList = et.getCodeAllList("010", selCd1, selCd2);
-			et.makeSelectOption(null, {value:"item4",text:"item_nm"},"#historyPopup_selCrCd4","선택해주세요");
-			$("#historyPopup_selCrCd4").find("option:eq(0)").prop("selected", true);
+//			et.makeSelectOption(null, {value:"item4",text:"item_nm"},"#historyPopup_selCrCd4","선택해주세요");
+//			$("#historyPopup_selCrCd4").find("option:eq(0)").prop("selected", true);
 			if (!!codeList) {
 				et.makeSelectOption(codeList, {value:"item3",text:"item_nm"},"#historyPopup_selCrCd3","선택해주세요");
 				$("#historyPopup_selCrCd3").find("option:eq(0)").prop("selected", true);
@@ -686,11 +686,11 @@
 		} else if (num === "3") {
 			codeList = et.getCodeAllList("010", selCd1, selCd2, selCd3);
 			if (!!codeList) {
-				et.makeSelectOption(codeList, {value:"item4",text:"item_nm"},"#historyPopup_selCrCd4","선택해주세요");
+//				et.makeSelectOption(codeList, {value:"item4",text:"item_nm"},"#historyPopup_selCrCd4","선택해주세요");
 			} else {
-				et.makeSelectOption(null, {value:"item4",text:"item_nm"},"#historyPopup_selCrCd4","선택해주세요");
+//				et.makeSelectOption(null, {value:"item4",text:"item_nm"},"#historyPopup_selCrCd4","선택해주세요");
 			}
-			$("#historyPopup_selCrCd4").find("option:eq(0)").prop("selected", true);
+//			$("#historyPopup_selCrCd4").find("option:eq(0)").prop("selected", true);
 		}
 	};
 	
@@ -711,7 +711,7 @@
 		self.detailData.cr_cd1 = $("#historyPopup_selCrCd1").val();
 		self.detailData.cr_cd2 = $("#historyPopup_selCrCd2").val();
 		self.detailData.cr_cd3 = $("#historyPopup_selCrCd3").val();
-		self.detailData.cr_cd4 = $("#historyPopup_selCrCd4").val();
+//		self.detailData.cr_cd4 = $("#historyPopup_selCrCd4").val();
 		self.detailData.cr_mm = $("#historyPopup_taCr_mm").val().replace(/\n/g, '<br/>');
 		self.detailData.cr_mm_add = $("#historyPopup_taCr_mm_add").val().replace(/\n/g, '<br/>');
 		self.detailData.call_etm = $.format.date(date, 'yyyy-MM-dd HH:mm:ss');
@@ -719,9 +719,11 @@
 		self.detailData.saveType = "pop";
 		self.detailData.viewStatus = "saveInfo";
 		
-		var optionData = $("#historyPopup_selCrCd4").find("option:selected").data();
-		self.detailData.o_state_cd = optionData.value1;
-		self.detailData.o_state_scd = optionData.value2;
+//		var optionData = $("#historyPopup_selCrCd4").find("option:selected").data();
+//		self.detailData.o_state_cd = optionData.value1;
+//		self.detailData.o_state_scd = optionData.value2;
+		self.detailData.o_state_cd = null;
+		self.detailData.o_state_scd = null;
 		
 		new ETService().setSuccessFunction(self.saveCallSucceed).callService("/callInfo/saveCallInfo", self.detailData);
 	};

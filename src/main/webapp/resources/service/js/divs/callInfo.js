@@ -247,7 +247,8 @@
 			for (var i = 0; i < list.length; i++) {
 				li = $('<li>', {
 					id : self.name+"_liCrCd"+num+"_"+(i+1),
-					text : list[i]["item_nm"]
+					text : list[i]["item_nm"],
+					title : list[i]["item_nm"]
 				});
 				li.data("cd", list[i]["item"+num]);
 				li.data("num", num);
@@ -305,7 +306,7 @@
 			self.callData.cr_cd1 = $("#"+self.name+"_ulCrCd1 > li").filter(".sel").data("cd");
 			self.callData.cr_cd2 = $("#"+self.name+"_ulCrCd2 > li").filter(".sel").data("cd");
 			self.callData.cr_cd3 = $("#"+self.name+"_ulCrCd3 > li").filter(".sel").data("cd");
-			self.callData.cr_cd4 = $("#"+self.name+"_ulCrCd4 > li").filter(".sel").data("cd");
+//			self.callData.cr_cd4 = $("#"+self.name+"_ulCrCd4 > li").filter(".sel").data("cd");
 			self.callData.cr_mm = $("#"+self.name+"_taCr_mm").val().replace(/\n/g, '<br/>');
 			self.callData.cr_mm = $("#"+self.name+"_taCr_mm_add").val().replace(/\n/g, '<br/>');
 		}
@@ -378,7 +379,7 @@
 			
 			codeList = et.getCodeList("010", cd);
 			$("#"+self.name+"_ulCrCd3").empty();
-			$("#"+self.name+"_ulCrCd4").empty();
+//			$("#"+self.name+"_ulCrCd4").empty();
 			if (!!codeList) {
 				self.makeCodeList("#"+self.name+"_ulCrCd2", codeList);
 				$("#"+self.name+"_ulCrCd2 > li:eq(0)").addClass("sel").trigger("click");
@@ -391,7 +392,7 @@
 			$("#"+id).addClass("sel");
 			
 			codeList = et.getCodeList("010", selCd, cd);
-			$("#"+self.name+"_ulCrCd4").empty();
+//			$("#"+self.name+"_ulCrCd4").empty();
 			if (!!codeList) {
 				self.makeCodeList("#"+self.name+"_ulCrCd3", codeList);
 				$("#"+self.name+"_ulCrCd3 > li:eq(0)").addClass("sel").trigger("click");
@@ -406,14 +407,14 @@
 			
 			codeList = et.getCodeList("010", selCd1, selCd2, cd);
 			if (!!codeList) {
-				self.makeCodeList("#"+self.name+"_ulCrCd4", codeList);
-				$("#"+self.name+"_ulCrCd4").find("li:eq(0)").addClass("sel");
+//				self.makeCodeList("#"+self.name+"_ulCrCd4", codeList);
+//				$("#"+self.name+"_ulCrCd4").find("li:eq(0)").addClass("sel");
 			} else {
-				$("#"+self.name+"_ulCrCd4").empty();
+//				$("#"+self.name+"_ulCrCd4").empty();
 			}
 		} else if (num === "4") {
-			$("#"+self.name+"_ulCrCd4 > li").removeClass("sel");
-			$("#"+id).addClass("sel");
+//			$("#"+self.name+"_ulCrCd4 > li").removeClass("sel");
+//			$("#"+id).addClass("sel");
 		}
 	};
 	

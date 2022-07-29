@@ -48,7 +48,7 @@ $(function (){
 <%-- 					<c:if test="${initData.manager_id ne '' && initData.manager_id ne null}"> --%>
 <%-- 						<a id="home_imgEmergency"><img src="${cp }/resources/ecoletree/img/btn_emergency.png" /><span id="home_spUCaseCnt">0</span></a> --%>
 <%-- 					</c:if> --%>
-					<a id="home_imgCallBack"><img src="${cp }/resources/ecoletree/img/btn_call.png" /><span id="home_spCallBackCnt"></span></a>
+<%-- 					<a id="home_imgCallBack"><img src="${cp }/resources/ecoletree/img/btn_call.png" /><span id="home_spCallBackCnt"></span></a> --%>
 					<a id="home_imgNotice"><img src="${cp }/resources/ecoletree/img/btn_noti.png" /><span id="home_spNoticeCnt"></span></a>
 					<button id="home_btnLogout"><img src="${cp }/resources/ecoletree/img/btn_logout.png" /><span>로그아웃</span></button>
 				</div>

@@ -320,7 +320,7 @@
 			$("#historyPopup_selCrCd1").removeAttr("disabled");
 			$("#historyPopup_selCrCd2").removeAttr("disabled");
 			$("#historyPopup_selCrCd3").removeAttr("disabled");
-			$("#historyPopup_selCrCd4").removeAttr("disabled");
+//			$("#historyPopup_selCrCd4").removeAttr("disabled");
 			$("#historyPopup_selExec_state").removeAttr("disabled");
 			$("#historyPopup_taCr_mm").removeAttr("disabled");
 			$("#historyPopup_taCr_mm_add").removeAttr("disabled");
@@ -337,7 +337,7 @@
 			$("#historyPopup_selCrCd1").attr("disabled", "disabled");
 			$("#historyPopup_selCrCd2").attr("disabled", "disabled");
 			$("#historyPopup_selCrCd3").attr("disabled", "disabled");
-			$("#historyPopup_selCrCd4").attr("disabled", "disabled");
+//			$("#historyPopup_selCrCd4").attr("disabled", "disabled");
 			$("#historyPopup_selExec_state").attr("disabled", "disabled");
 			$("#historyPopup_taCr_mm").attr("disabled", "disabled");
 			$("#historyPopup_taCr_mm_add").attr("disabled", "disabled");
@@ -377,7 +377,7 @@
 			self.appendOption("#historyPopup_selCrCd1", data.cr_cd1, data.view_cr_cd1);
 			self.appendOption("#historyPopup_selCrCd2", data.cr_cd2, data.view_cr_cd2);
 			self.appendOption("#historyPopup_selCrCd3", data.cr_cd3, data.view_cr_cd3);
-			self.appendOption("#historyPopup_selCrCd4", data.cr_cd4, data.view_cr_cd4);
+//			self.appendOption("#historyPopup_selCrCd4", data.cr_cd4, data.view_cr_cd4);
 			self.appendOption("#historyPopup_selExec_state", data.state_cd, data.state_nm);			
 		
 		}
@@ -522,8 +522,18 @@
 				}
 			}
 		];
+		
+		// 테이블에서 툴팁이 보여야 할 목록 작성
+		var tooltipColumnList = ["team_name", "view_cr_cd3", "cr_mm", "call_bdttm", "call_sdttm", "cust_id"];
+		
 		var option = et.createDataTableSettings(columns, self.path + "/getCallHistoryList", param, self.dataTableDrawCallback);
 		option.autoWidth = false;
+		option.rowCallback = function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) { // 툴팁 설정
+			_.forEach(tooltipColumnList, function(item, index) {
+				var idx = _.findIndex(columns, function(o) { return o.data == item; });
+				$("td:eq("+idx+")", nRow).attr('title', aData[columns[idx].data]);
+			});
+		};
 		self.tables = $("#"+self.name+"_tbList").DataTable(option);
 	},500);
 	
@@ -732,9 +742,9 @@
 		ecoletree.makeSelectOption(codeList, {value:"item3",text:"item_nm"},"#historyPopup_selCrCd3","선택해주세요");
 		$("#historyPopup_selCrCd3").val(self.detailData.cr_cd3);
 		// 소분류 코드
-		codeList = ecoletree.getCodeAllList("010", self.detailData.cr_cd1, self.detailData.cr_cd2, self.detailData.cr_cd3);
-		ecoletree.makeSelectOption(codeList, {value:"item4",text:"item_nm"},"#historyPopup_selCrCd4","선택해주세요");
-		$("#historyPopup_selCrCd4").val(self.detailData.cr_cd4);
+//		codeList = ecoletree.getCodeAllList("010", self.detailData.cr_cd1, self.detailData.cr_cd2, self.detailData.cr_cd3);
+//		ecoletree.makeSelectOption(codeList, {value:"item4",text:"item_nm"},"#historyPopup_selCrCd4","선택해주세요");
+//		$("#historyPopup_selCrCd4").val(self.detailData.cr_cd4);
 		// 처리코드
 		codeList = ecoletree.getCodeAllList("011");
 		ecoletree.makeSelectOption(codeList, {value:"item1",text:"item_nm"},"#historyPopup_selExec_state","선택해주세요");
@@ -773,14 +783,16 @@
 		postData.cr_cd1 = $("#historyPopup_selCrCd1").val();
 		postData.cr_cd2 = $("#historyPopup_selCrCd2").val();
 		postData.cr_cd3 = $("#historyPopup_selCrCd3").val();
-		postData.cr_cd4 = $("#historyPopup_selCrCd4").val();
+//		postData.cr_cd4 = $("#historyPopup_selCrCd4").val();
 		postData.cr_mm = $("#historyPopup_taCr_mm").val();
 		postData.cr_mm_add = $("#historyPopup_taCr_mm_add").val();
 		postData.state_cd = $("#historyPopup_selExec_state").val();
 		
-		var optionData = $("#historyPopup_selCrCd4").find("option:selected").data();
-		postData.o_state_cd = optionData.value1;
-		postData.o_state_scd = optionData.value2;
+//		var optionData = $("#historyPopup_selCrCd4").find("option:selected").data();
+//		postData.o_state_cd = optionData.value1;
+//		postData.o_state_scd = optionData.value2;
+		postData.o_state_cd = null;
+		postData.o_state_scd = null;
 		
 		$("#historyPopup_btnSave").removeAttr("disabled");
 		new ETService().setSuccessFunction(self.saveCallSucceed).callService("/historyDetail/saveHistoryDetail", postData);
@@ -818,8 +830,8 @@
 			codeList = et.getCodeAllList("010", selCd1);
 			et.makeSelectOption(null, {value:"item3",text:"item_nm"},"#historyPopup_selCrCd3","선택해주세요");
 			$("#historyPopup_selCrCd3").find("option:eq(0)").prop("selected", true);
-			et.makeSelectOption(null, {value:"item4",text:"item_nm"},"#historyPopup_selCrCd4","선택해주세요");
-			$("#historyPopup_selCrCd4").find("option:eq(0)").prop("selected", true);
+//			et.makeSelectOption(null, {value:"item4",text:"item_nm"},"#historyPopup_selCrCd4","선택해주세요");
+//			$("#historyPopup_selCrCd4").find("option:eq(0)").prop("selected", true);
 			if (!!codeList) {
 				et.makeSelectOption(codeList, {value:"item2",text:"item_nm"},"#historyPopup_selCrCd2","선택해주세요");
 				$("#historyPopup_selCrCd2").find("option:eq(0)").prop("selected", true);
@@ -830,8 +842,8 @@
 			}
 		} else if (num === "2") {
 			codeList = et.getCodeAllList("010", selCd1, selCd2);
-			et.makeSelectOption(null, {value:"item4",text:"item_nm"},"#historyPopup_selCrCd4","선택해주세요");
-			$("#historyPopup_selCrCd4").find("option:eq(0)").prop("selected", true);
+//			et.makeSelectOption(null, {value:"item4",text:"item_nm"},"#historyPopup_selCrCd4","선택해주세요");
+//			$("#historyPopup_selCrCd4").find("option:eq(0)").prop("selected", true);
 			if (!!codeList) {
 				et.makeSelectOption(codeList, {value:"item3",text:"item_nm"},"#historyPopup_selCrCd3","선택해주세요");
 				$("#historyPopup_selCrCd3").find("option:eq(0)").prop("selected", true);
@@ -843,11 +855,11 @@
 		} else if (num === "3") {
 			codeList = et.getCodeAllList("010", selCd1, selCd2, selCd3);
 			if (!!codeList) {
-				et.makeSelectOption(codeList, {value:"item4",text:"item_nm"},"#historyPopup_selCrCd4","선택해주세요");
+//				et.makeSelectOption(codeList, {value:"item4",text:"item_nm"},"#historyPopup_selCrCd4","선택해주세요");
 			} else {
-				et.makeSelectOption(null, {value:"item4",text:"item_nm"},"#historyPopup_selCrCd4","선택해주세요");
+//				et.makeSelectOption(null, {value:"item4",text:"item_nm"},"#historyPopup_selCrCd4","선택해주세요");
 			}
-			$("#historyPopup_selCrCd4").find("option:eq(0)").prop("selected", true);
+//			$("#historyPopup_selCrCd4").find("option:eq(0)").prop("selected", true);
 		}
 	};
 

@@ -38,7 +38,7 @@
 			, ca.view_cr_cd1        
 			, ca.view_cr_cd2         
 			, ca.view_cr_cd3
-			, ca.view_cr_cd4
+<!-- 			, ca.view_cr_cd4 -->
 			, ca.cr_mm                                                                     
 			, ca.cr_mm_add                                                                     
 			, ca.callform_cd
@@ -48,7 +48,7 @@
 			, ca.cr_cd1
 			, ca.cr_cd2
 			, ca.cr_cd3
-			, ca.cr_cd4
+<!-- 			, ca.cr_cd4 -->
 			, ca.view_remark_1
 			, ca.remark_1
             , ca.team_name
@@ -77,7 +77,7 @@
 				FN_FCODENAME('010',ca.cr_cd1,'***','***','***','') view_cr_cd1,        
 				FN_FCODENAME('010',ca.cr_cd1,ca.cr_cd2,'***','***','') view_cr_cd2,         
 				FN_FCODENAME('010',ca.cr_cd1,ca.cr_cd2,ca.cr_cd3,'***','') view_cr_cd3,
-				FN_FCODENAME('010',ca.cr_cd1,ca.cr_cd2,ca.cr_cd3,ca.cr_cd4,'') view_cr_cd4,
+<!-- 				FN_FCODENAME('010',ca.cr_cd1,ca.cr_cd2,ca.cr_cd3,ca.cr_cd4,'') view_cr_cd4, -->
 				ca.cr_mm,
 				ca.cr_mm_add,
 				ca.io_flag,                                                              
@@ -87,7 +87,7 @@
 				concat(ca.cr_cd1) as cr_cd1,
 				concat(ca.cr_cd2) as cr_cd2,
 				concat(ca.cr_cd3) as cr_cd3,
-				concat(ca.cr_cd4) as cr_cd4,
+<!-- 				concat(ca.cr_cd4) as cr_cd4, -->
 				FN_FCODENAME('090',ca.remark_1,'***','***','***','') as view_remark_1,
 				concat(ca.remark_1) as remark_1,
 	            tm.team_name,    
@@ -102,7 +102,7 @@
 					, cr.cr_cd1
 					, cr.cr_cd2
 					, cr.cr_cd3
-					, cr.cr_cd4
+<!-- 					, cr.cr_cd4 -->
 					, cr.cr_sno
 					, cr.remark_1
 					  from  TB_CALL ca , TB_CALLRESULT cr
@@ -222,7 +222,7 @@
 			, ca.view_cr_cd1        
 			, ca.view_cr_cd2         
 			, ca.view_cr_cd3
-			, ca.view_cr_cd4
+<!-- 			, ca.view_cr_cd4 -->
 			, ca.cr_mm                                                                     
 			, ca.cr_mm_add                                                                     
 			, ca.callform_cd
@@ -231,7 +231,7 @@
 			, ca.cr_cd1
 			, ca.cr_cd2
 			, ca.cr_cd3
-			, ca.cr_cd4
+<!-- 			, ca.cr_cd4 -->
 			, ca.view_remark_1
 			, ca.remark_1
             , ca.team_name
@@ -260,7 +260,7 @@
 				FN_FCODENAME('010',ca.cr_cd1,'***','***','***','') view_cr_cd1,        
 				FN_FCODENAME('010',ca.cr_cd1,ca.cr_cd2,'***','***','') view_cr_cd2,         
 				FN_FCODENAME('010',ca.cr_cd1,ca.cr_cd2,ca.cr_cd3,'***','') view_cr_cd3,
-				FN_FCODENAME('010',ca.cr_cd1,ca.cr_cd2,ca.cr_cd3,ca.cr_cd4,'') view_cr_cd4,
+<!-- 				FN_FCODENAME('010',ca.cr_cd1,ca.cr_cd2,ca.cr_cd3,ca.cr_cd4,'') view_cr_cd4, -->
 				ca.cr_mm,                                                                     
 				ca.cr_mm_add,                                                                     
 				case ca.io_flag when  'I' then 'I/B' when 'O' then 'O/B' else '-' end callform_cd,
@@ -269,7 +269,7 @@
 				concat(ca.cr_cd1) as cr_cd1,
 				concat(ca.cr_cd2) as cr_cd2,
 				concat(ca.cr_cd3) as cr_cd3,
-				concat(ca.cr_cd4) as cr_cd4,
+<!-- 				concat(ca.cr_cd4) as cr_cd4, -->
 				FN_FCODENAME('090',ca.remark_1,'***','***','***','') as view_remark_1,
 				concat(ca.remark_1) as remark_1,
 	            tm.team_name,    
@@ -284,7 +284,7 @@
 					, cr.cr_cd1
 					, cr.cr_cd2
 					, cr.cr_cd3
-					, cr.cr_cd4
+<!-- 					, cr.cr_cd4 -->
 					, cr.cr_sno
 					, cr.remark_1
 					  from  TB_CALL ca
@@ -345,7 +345,7 @@
 					, cr.cr_cd1
 					, cr.cr_cd2
 					, cr.cr_cd3
-					, cr.cr_cd4
+<!-- 					, cr.cr_cd4 -->
 					, cr.cr_sno
 					, cr.remark_1
 					  from  TB_CALL ca

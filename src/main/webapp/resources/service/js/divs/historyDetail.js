@@ -39,7 +39,7 @@
 		$("#"+self.name+"_selCrCd1").on("change", self.selCrCd_changeEventListener);
 		$("#"+self.name+"_selCrCd2").on("change", self.selCrCd_changeEventListener);
 		$("#"+self.name+"_selCrCd3").on("change", self.selCrCd_changeEventListener);
-		$("#"+self.name+"_selCrCd4").on("change", self.selCrCd_changeEventListener);
+//		$("#"+self.name+"_selCrCd4").on("change", self.selCrCd_changeEventListener);
 		
 		$("#"+self.name+"_btnShowDetail").on("click", self.btnShowDetail_clickEventListener);
 		$("#"+self.name+"_btnUpdate").on("click", self.btnUpdate_clickEventListener);
@@ -97,7 +97,7 @@
 			$("#"+self.name+"_selCrCd1").empty();
 			$("#"+self.name+"_selCrCd2").empty();
 			$("#"+self.name+"_selCrCd3").empty();
-			$("#"+self.name+"_selCrCd4").empty();
+//			$("#"+self.name+"_selCrCd4").empty();
 			$("#"+self.name+"_selExec_state").empty();
 
 			if (!!self.detailData.cr_cd1) {
@@ -115,11 +115,11 @@
 			} else {
 				$("#"+self.name+"_selCrCd3").append("<option value=''>선택해주세요</option>");
 			}
-			if (!!self.detailData.cr_cd4) {
-				$("#"+self.name+"_selCrCd4").append("<option value='"+self.detailData.cr_cd4+"'>"+ self.detailData.view_cr_cd4 +"</option>");
-			} else {
-				$("#"+self.name+"_selCrCd4").append("<option value=''>선택해주세요</option>");
-			}
+//			if (!!self.detailData.cr_cd4) {
+//				$("#"+self.name+"_selCrCd4").append("<option value='"+self.detailData.cr_cd4+"'>"+ self.detailData.view_cr_cd4 +"</option>");
+//			} else {
+//				$("#"+self.name+"_selCrCd4").append("<option value=''>선택해주세요</option>");
+//			}
 			if (!!self.detailData.state_cd) {
 				$("#"+self.name+"_selExec_state").append("<option value='"+self.detailData.state_cd+"'>"+ self.detailData.state_nm +"</option>");
 			} else {
@@ -190,7 +190,7 @@
 			$("#"+self.name+"_selCrCd1").removeAttr("disabled");
 			$("#"+self.name+"_selCrCd2").removeAttr("disabled");
 			$("#"+self.name+"_selCrCd3").removeAttr("disabled");
-			$("#"+self.name+"_selCrCd4").removeAttr("disabled");
+//			$("#"+self.name+"_selCrCd4").removeAttr("disabled");
 			$("#"+self.name+"_selExec_state").removeAttr("disabled");
 			$("#"+self.name+"_taCr_mm").removeAttr("disabled");
 			$("#"+self.name+"_taCr_mm_add").removeAttr("disabled");
@@ -209,8 +209,8 @@
 			$("#"+self.name+"_selCrCd2").append("<option>선택해주세요</option>");
 			$("#"+self.name+"_selCrCd3").empty();
 			$("#"+self.name+"_selCrCd3").append("<option>선택해주세요</option>");
-			$("#"+self.name+"_selCrCd4").empty();
-			$("#"+self.name+"_selCrCd4").append("<option>선택해주세요</option>");
+//			$("#"+self.name+"_selCrCd4").empty();
+//			$("#"+self.name+"_selCrCd4").append("<option>선택해주세요</option>");
 			$("#"+self.name+"_selExec_state").empty();
 			$("#"+self.name+"_selExec_state").append("<option>선택해주세요</option>");
 			$("#"+self.name+"_taCr_mm").val("");
@@ -225,7 +225,7 @@
 			$("#"+self.name+"_selCrCd1").attr("disabled", "disabled");
 			$("#"+self.name+"_selCrCd2").attr("disabled", "disabled");
 			$("#"+self.name+"_selCrCd3").attr("disabled", "disabled");
-			$("#"+self.name+"_selCrCd4").attr("disabled", "disabled");
+//			$("#"+self.name+"_selCrCd4").attr("disabled", "disabled");
 			$("#"+self.name+"_selExec_state").attr("disabled", "disabled");
 			$("#"+self.name+"_taCr_mm").attr("disabled", "disabled");
 			$("#"+self.name+"_taCr_mm_add").attr("disabled", "disabled");
@@ -273,8 +273,8 @@
 			codeList = et.getCodeAllList("010", selCd1);
 			et.makeSelectOption(null, {value:"item3",text:"item_nm"},"#"+self.name+"_selCrCd3","선택해주세요");
 			$("#"+self.name+"_selCrCd3").find("option:eq(0)").prop("selected", true);
-			et.makeSelectOption(null, {value:"item4",text:"item_nm"},"#"+self.name+"_selCrCd4","선택해주세요");
-			$("#"+self.name+"_selCrCd4").find("option:eq(0)").prop("selected", true);
+//			et.makeSelectOption(null, {value:"item4",text:"item_nm"},"#"+self.name+"_selCrCd4","선택해주세요");
+//			$("#"+self.name+"_selCrCd4").find("option:eq(0)").prop("selected", true);
 			if (!!codeList) {
 				et.makeSelectOption(codeList, {value:"item2",text:"item_nm"},"#"+self.name+"_selCrCd2","선택해주세요");
 				$("#"+self.name+"_selCrCd2").find("option:eq(0)").prop("selected", true).trigger("change");
@@ -284,8 +284,8 @@
 			}
 		} else if (num === "2") {
 			codeList = et.getCodeAllList("010", selCd1, selCd2);
-			et.makeSelectOption(null, {value:"item4",text:"item_nm"},"#"+self.name+"_selCrCd4","선택해주세요");
-			$("#"+self.name+"_selCrCd4").find("option:eq(0)").prop("selected", true);
+//			et.makeSelectOption(null, {value:"item4",text:"item_nm"},"#"+self.name+"_selCrCd4","선택해주세요");
+//			$("#"+self.name+"_selCrCd4").find("option:eq(0)").prop("selected", true);
 			if (!!codeList) {
 				et.makeSelectOption(codeList, {value:"item3",text:"item_nm"},"#"+self.name+"_selCrCd3","선택해주세요");
 				$("#"+self.name+"_selCrCd3").find("option:eq(0)").prop("selected", true).trigger("change");
@@ -296,11 +296,11 @@
 		} else if (num === "3") {
 			codeList = et.getCodeAllList("010", selCd1, selCd2, selCd3);
 			if (!!codeList) {
-				et.makeSelectOption(codeList, {value:"item4",text:"item_nm"},"#"+self.name+"_selCrCd4","선택해주세요");
+//				et.makeSelectOption(codeList, {value:"item4",text:"item_nm"},"#"+self.name+"_selCrCd4","선택해주세요");
 			} else {
-				et.makeSelectOption(null, {value:"item4",text:"item_nm"},"#"+self.name+"_selCrCd4","선택해주세요");
+//				et.makeSelectOption(null, {value:"item4",text:"item_nm"},"#"+self.name+"_selCrCd4","선택해주세요");
 			}
-			$("#"+self.name+"_selCrCd4").find("option:eq(0)").prop("selected", true);
+//			$("#"+self.name+"_selCrCd4").find("option:eq(0)").prop("selected", true);
 		}
 	};
 	
@@ -350,9 +350,9 @@
 		et.makeSelectOption(codeList, {value:"item3",text:"item_nm"},"#"+self.name+"_selCrCd3","선택해주세요");
 		$("#"+self.name+"_selCrCd3").val(self.detailData.cr_cd3);
 		// 상세 코드
-		codeList = et.getCodeAllList("010", self.detailData.cr_cd1, self.detailData.cr_cd2, self.detailData.cr_cd3);
-		et.makeSelectOption(codeList, {value:"item4",text:"item_nm"},"#"+self.name+"_selCrCd4","선택해주세요");
-		$("#"+self.name+"_selCrCd4").val(self.detailData.cr_cd4);
+//		codeList = et.getCodeAllList("010", self.detailData.cr_cd1, self.detailData.cr_cd2, self.detailData.cr_cd3);
+//		et.makeSelectOption(codeList, {value:"item4",text:"item_nm"},"#"+self.name+"_selCrCd4","선택해주세요");
+//		$("#"+self.name+"_selCrCd4").val(self.detailData.cr_cd4);
 		
 		// 처리코드
 		codeList = et.getCodeAllList("011");
@@ -397,7 +397,7 @@
 		self.detailData.cr_cd1 = $("#"+self.name+"_selCrCd1").val();
 		self.detailData.cr_cd2 = $("#"+self.name+"_selCrCd2").val();
 		self.detailData.cr_cd3 = $("#"+self.name+"_selCrCd3").val();
-		self.detailData.cr_cd4 = $("#"+self.name+"_selCrCd4").val();
+//		self.detailData.cr_cd4 = $("#"+self.name+"_selCrCd4").val();
 		self.detailData.state_cd = $("#"+self.name+"_selExec_state").val();
 		self.detailData.cr_mm = $("#"+self.name+"_taCr_mm").val().replace(/\n/g, '<br/>');
 		self.detailData.cr_mm_add = $("#"+self.name+"_taCr_mm_add").val().replace(/\n/g, '<br/>');

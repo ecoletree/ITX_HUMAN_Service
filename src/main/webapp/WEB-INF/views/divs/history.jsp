@@ -20,7 +20,7 @@
 		
 			<p>조회조건1</p>
 			<div>
-				<select id="history_sel1">
+				<select id="history_sel1" title="">
 					<option value="">선택해주세요</option>
 					<option value="cust_nm">고객명</option>
 					<option value="search_tmr_nm">상담원명</option>

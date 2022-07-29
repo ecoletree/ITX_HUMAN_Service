@@ -67,25 +67,26 @@ public class HomeServiceImpl extends ETBaseService implements HomeService {
 		try {
 			
 			int noticeCount = noticeMapper.selectNewNoticeCount(params);
-			int callbackCount = callBackMapper.selectNewCallBackCount(params);
+//			int callbackCount = callBackMapper.selectNewCallBackCount(params);
 			int ucaseCount = 0;
 			int blackListCount = 0;
 			
 			resultMap.put("noticeCount", noticeCount);
-			resultMap.put("callbackCount", callbackCount);
+//			resultMap.put("callbackCount", callbackCount);
+			resultMap.put("callbackCount", 0);
 			
-			PropertyUtil propertyUtil;
-	        String msg = null;
-			try {
-				propertyUtil = PropertyUtil.getInstance();
-				msg = propertyUtil.getProperties("manager.tmr.id");
-				if (-1 < msg.indexOf(SessionHelper.getTmrId())) {
-					ucaseCount = ucaseMapper.selectNewUCaseCount(params);
+//			PropertyUtil propertyUtil;
+//	        String msg = null;
+//			try {
+//				propertyUtil = PropertyUtil.getInstance();
+//				msg = propertyUtil.getProperties("manager.tmr.id");
+//				if (-1 < msg.indexOf(SessionHelper.getTmrId())) {
+//					ucaseCount = ucaseMapper.selectNewUCaseCount(params);
 					//blackListCount = blackListMapper.selectBlackListCount(params);
-				}
-			} catch (IOException e) {
-				logError(e.getMessage(),e);
-			}
+//				}
+//			} catch (IOException e) {
+//				logError(e.getMessage(),e);
+//			}
 			
 			resultMap.put("ucaseCount", ucaseCount);
 			resultMap.put("blackListCount", blackListCount);

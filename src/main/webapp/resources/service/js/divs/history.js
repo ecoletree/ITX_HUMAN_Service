@@ -460,9 +460,19 @@
 				}
 			}
 		];
+		
+		// 테이블에서 툴팁이 보여야 할 목록 작성
+		var tooltipColumnList = ["team_name", "view_cr_cd3", "cr_mm", "call_bdttm", "call_sdttm", "cust_id"];
+		
 		var option = et.createDataTableSettings(columns, self.path + "/getCallHistoryList", param, self.dataTableDrawCallback);
 		option.autoWidth = false;
 		option.pageLength = 8;
+		option.rowCallback = function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) { // 툴팁 설정
+			_.forEach(tooltipColumnList, function(item, index) {
+				var idx = _.findIndex(columns, function(o) { return o.data == item; });
+				$("td:eq("+idx+")", nRow).attr('title', aData[columns[idx].data]);
+			});
+		};
 		self.tables = $("#"+self.name+"_tbList").DataTable(option);
 	},500);
 	

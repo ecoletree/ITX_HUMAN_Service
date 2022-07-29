@@ -27,7 +27,7 @@
 			cr_cd1 = #{cr_cd1}
     		, cr_cd2 = #{cr_cd2}
     		, cr_cd3 = #{cr_cd3}
-    		, cr_cd4 = #{cr_cd4}
+<!--     		, cr_cd4 = #{cr_cd4} -->
     		, cr_mm = #{cr_mm}
     		, cr_mm_add = #{cr_mm_add}
     	where 1=1
