@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+	* Copyright (c) 2017 EcoleTree. All Rights Reserved.
+	* 
+	* Author : ysjang	
+	* Created : 2020. 01. 09.
+	* DESC : 고객정보 / 상담내용
+-->
+<mapper namespace="kr.co.ecoletree.service.callInfo.mapper.CallInfoMapper">
+
+	<!-- 전화번호로 고객번호 조회 -->
+	<select id="selectCustInfo" parameterType="map" resultType="map">
+		select 
+			cust_id 
+			, cust_num
+			, cust_nm
+			, FN_DECRYPT(hand_tel, #{schema_en_key}) as hand_tel
+			, class_1
+			, class_2
+			, class_3
+			, class_4
+			, class_5
+		from 
+			TB_CUST 
+		where 
+			cust_id = #{cust_id} 
+		limit 1
+	</select>
+	
+	<!-- 팀 리스트 검색 -->
+	<select id="selectTeamList" parameterType="map" resultType="map">
+		select
+			team_cd
+			, team_name
+		from
+			TB_TEAM_MST
+		where
+			is_delete = 'N'
+	</select>
+	
+	<!-- 상담원 리스트 검색 -->
+	<select id="selectTmrList" parameterType="map" resultType="map">
+		select
+			concat(tmr_id) as tmr_id
+			, tmr_nm
+			, team_cd
+		from
+			TB_TMR
+		where
+			is_su = 'N'
+		and is_manager = 'N'
+		and is_delete = 'N'
+			
+	</select>
+	
+	<!-- 고객정보 업데이트 -->
+    <update id="updateCustInfo" parameterType="map">
+    	update TB_CUST 
+   		set  
+           cust_nm = #{cust_nm}
+           , class_1   = #{class_1}
+           , class_2   = #{class_2}
+           , class_3   = #{class_3}
+           , class_4  = #{class_4}
+		where 
+			cust_id = #{cust_id}
+    </update>
+    
+    <!-- 콜 정보 업데이트 -->
+    <update id="updateCallInfo" parameterType="map">
+		update 
+			TB_CALL a
+			left join (
+				select date_format(aa.call_bdttm, '%Y-%m-%d %H:%i:%s') as call_bdttm, aa.call_id
+				from TB_CALL aa
+				where 1=1 
+				and aa.call_id = #{call_id}
+				and aa.global_id = #{global_id}
+				and aa.item_id = #{item_id}
+			) b
+			on a.call_id = b.call_id
+		set 
+			a.state_cd = #{state_cd}, 
+			a.call_etm = date_format(#{call_etm}, '%H%i%s'), 
+			a.call_edttm = str_to_date(#{call_etm}, '%Y-%m-%d %H:%i:%s'), 
+			a.call_sdt = date_format(now(), '%Y%m%d'), 
+			a.call_sdttm = now(), 
+			a.call_tm = TIMESTAMPDIFF(second, b.call_bdttm, #{call_etm}), 
+			<if test="saveType.equals('pop')">
+			a.save_tm = #{save_tm}
+			</if>
+			<if test="!saveType.equals('pop')">
+			a.save_tm = TIMESTAMPDIFF(second, #{call_etm}, now()) 
+			</if>
+		where 1=1
+		and a.call_id = #{call_id}
+		and a.global_id = #{global_id}
+		and a.item_id = #{item_id}
+    </update>
+    
+    <!-- 콜 결과 저장 전 결과 저장 값이 있는지 확인 -->
+    <select id="selectCallResultId" parameterType="map" resultType="int">
+    	select 
+    		count(call_id) as cnt 
+    	from 
+    		TB_CALLRESULT 
+    	where 1=1
+    	and call_id = #{call_id}
+    </select>
+    
+    <!-- 콜 결과값 시퀀스 채번 -->
+    <select id="selectCallResultSeq" parameterType="map" resultType="map">
+    	select 
+    		concat(max(cr_sno)+1) as cr_sno
+    	from 
+    		TB_CALLRESULT 
+    	where 1=1
+    	and	call_id = #{call_id}
+    </select>
+    
+    <!-- 콜 결과값 입력 -->
+    <insert id="insertCallResult" parameterType="map">
+    	insert into TB_CALLRESULT (
+    		call_id
+    		, cr_sno
+    		, cr_cd1
+    		, cr_cd2
+    		, cr_cd3
+    		, cr_cd4
+    		, cr_mm
+    		, cr_mm_add
+    	) values (
+        	#{call_id}
+        	, #{cr_sno}
+        	, #{cr_cd1}
+        	, #{cr_cd2}
+        	, #{cr_cd3}
+        	, #{cr_cd4}
+        	, #{cr_mm}
+        	, #{cr_mm_add}
+        )
+    </insert>
+    
+    <!-- 아웃바운드 상태 업데이트 -->
+    <update id="updateStateInfo" parameterType="map">
+    	update TB_STATE
+		set
+			state_cd = #{o_state_cd}
+			, state_scd = #{o_state_scd}
+			, state_dt = date_format(now(), '%Y%m%d')
+			, state_tm = date_format(now(), '%H%i%s')
+			, ccall_id = #{call_id}
+			, call_tcnt = call_tcnt + 1
+			, his_tcnt = his_tcnt + 1
+		where 1=1
+		and cust_id = #{cust_id};
+    </update>
+</mapper>

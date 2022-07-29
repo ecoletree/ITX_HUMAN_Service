@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration PUBLIC "-//APACHE//DTD LOG4J 1.2//EN" "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+	<!-- Appenders -->
+	<appender name="console" class="org.apache.log4j.ConsoleAppender">
+		<param name="Target" value="System.out" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[ITX HUMAN SERVICE]%d [%-5l] === %m%n" />
+		</layout>
+	</appender>
+	
+	<!-- 날짜별 로그 파일 생성 -->
+	<appender name="ecoletree" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="file" value="/logs/itxcustomer.log" />
+		<param name="Append" value="true" />
+		<param name="DatePattern" value="'.'yyyy.MM.dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[ITX HUMAN SERVICE]%d [%-5l] === %m%n" />
+		</layout>
+	</appender>
+
+	<!-- Application Loggers 모든 쿼리를 보고 싶으면 debug 로 변경-->
+	<logger name="kr.co.ecoletree">
+		<level value="info" />
+	</logger>
+
+	<logger name="org.springframework">
+		<level value="info" />
+	</logger>
+
+	<logger name="org.apache">
+		<level value="info" />
+	</logger>
+
+	<logger name="org.mybatis">
+		<level value="info" />
+		<appender-ref ref="console" />
+	</logger>
+	
+	<logger name="java.sql">
+		<level value="info" />
+		<appender-ref ref="console" />
+	</logger>
+
+	<logger name="jdbc.audit" additivity="false">
+		<level value="info" />
+		<appender-ref ref="console" />
+	</logger>
+	<logger name="java.sql.PreparedStatement" additivity="false">
+		<level value="error" />
+		<appender-ref ref="console" />
+	</logger>
+
+	<logger name="java.sql.Statement" additivity="false">
+		<level value="error" />
+		<appender-ref ref="console" />
+	</logger>
+	<logger name="jdbc.resultset" additivity="false">
+		<level value="error" />
+		<appender-ref ref="console" />
+	</logger>
+	<logger name="jdbc.resultsettable" additivity="false">
+		<level value="error" />
+		<appender-ref ref="console" />
+	</logger>
+	<logger name="jdbc.connection" additivity="false">
+		<level value="info" />
+		<appender-ref ref="console" />
+	</logger>
+	<logger name="jdbc.sqlonly" additivity="false">
+		<level value="info" />
+		<appender-ref ref="console" />
+	</logger>
+
+	<!-- Root Logger -->
+	<root>
+		<priority value="info" />
+		<appender-ref ref="console" />
+		<appender-ref ref="ecoletree" />
+	</root>
+</log4j:configuration>

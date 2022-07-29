@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+	<beans:bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+		<beans:property name="driverClassName" value="${jdbc.driverClassName}" />
+		<beans:property name="jdbcUrl" value="${jdbc.url}" />
+		<beans:property name="username" value="${jdbc.username}" />
+		<beans:property name="password" value="${jdbc.password}" />
+
+		<!-- 아래 4개 설정은 예외 케이스를 줄이기 위해 동일하게 설정하도록 함 -->
+		<beans:property name="maximumPoolSize" value="300" /> <!-- 커넥션 풀에 반납할 때 유지될 수 있는 최대 커넥션 수 -->
+		<beans:property name="minimumIdle" value="10" /> <!-- 최수 유지 커넥션 수 -->
+		<beans:property name="idleTimeout" value="60000" /> <!-- 커넥션이 풀에서 유휴 상태로 남을 수 있는 최대 시간 -->
+
+		<beans:property name="autoCommit" value="true" />
+		<beans:property name="readOnly" value="false" />
+
+		<beans:property name="connectionTimeout" value="5000" /> <!-- 커넥션 할당 최대 대기 시간: 5s -->
+<!-- 		<beans:property name="maxLifetime" value="290000" /> 커넥션 갱신 주기: dbms의 타임아웃 값보다 작아야 함. 현재 네이버 서버 wait_timeout: 300s -->
+		<beans:property name="maxLifetime" value="1800000" /> <!-- 커넥션 갱신 주기: dbms의 타임아웃 값보다 작아야 함. 현재 kcdc 서버 wait_timeout: 3600s --> 
+	</beans:bean>
+
+<!--	<beans:bean id="dataSource" class="org.apache.tomcat.dbcp.dbcp2.BasicDataSource" destroy-method="close">-->
+<!--		<beans:property name="driverClassName" value="${jdbc.driverClassName}"></beans:property>-->
+<!--		<beans:property name="url" value="${jdbc.url}"></beans:property>-->
+<!--		<beans:property name="username" value="${jdbc.username}"></beans:property>-->
+<!--		<beans:property name="password" value="${jdbc.password}"></beans:property>-->
+<!--		-->
+<!--		&lt;!&ndash; 아래 4개 설정은 예외 케이스를 줄이기 위해 동일하게 설정하도록 함 &ndash;&gt;-->
+<!--		<beans:property name="initialSize" value="50"></beans:property> &lt;!&ndash; 최초 커넥션 풀에 넣을 커넥션 수 &ndash;&gt;-->
+<!--		<beans:property name="maxTotal" value="300"></beans:property> &lt;!&ndash; 동시에 사용할 수 있는 최대 커넥션 수 &ndash;&gt;-->
+<!--		<beans:property name="maxIdle" value="300"></beans:property> &lt;!&ndash; 커넥션 풀에 반납할 때 유지될 수 있는 최대 커넥션 수 &ndash;&gt;-->
+<!--		<beans:property name="minIdle" value="50"></beans:property> &lt;!&ndash; 최수 유지 커넥션 수 &ndash;&gt;-->
+<!--		-->
+<!--		<beans:property name="maxWaitMillis" value="5000"></beans:property> &lt;!&ndash; 커넥션 풀이 고갈되었을 경우 최대 대기시간 &ndash;&gt;-->
+<!--		<beans:property name="validationQuery" value="select 1"></beans:property> &lt;!&ndash; 커넥션 반환/획득하기 전 유효 검사 &ndash;&gt;-->
+<!--		-->
+<!--&lt;!&ndash; 		<beans:property name="testOnBorrow" value="false"></beans:property> &ndash;&gt;-->
+<!--&lt;!&ndash; 		<beans:property name="testOnReturn" value="false"></beans:property> &ndash;&gt;-->
+<!--&lt;!&ndash; 		<beans:property name="testWhileIdle" value="true"></beans:property> &ndash;&gt;-->
+<!--		-->
+<!--&lt;!&ndash; 		<beans:property name="timeBetweenEvictionRunsMillis" value="300000"></beans:property> &ndash;&gt;-->
+<!--&lt;!&ndash; 		<beans:property name="numTestsPerEvictionRun" value="10"></beans:property> &ndash;&gt;-->
+<!--&lt;!&ndash; 		<beans:property name="minEvictableIdleTimeMillis" value="-1"></beans:property> &ndash;&gt;-->
+<!--		-->
+<!--		<beans:property name="poolPreparedStatements" value="true"></beans:property>-->
+<!--		<beans:property name="maxOpenPreparedStatements" value="50"></beans:property>-->
+<!--		-->
+<!--		-->
+<!--		<beans:property name="removeAbandonedOnBorrow" value="true"></beans:property>-->
+<!--		<beans:property name="removeAbandonedOnMaintenance" value="true"></beans:property>-->
+<!--		&lt;!&ndash; 600초 이상 돌고 있으면 잘라 &ndash;&gt;-->
+<!--		<beans:property name="removeAbandonedTimeout" value="3600"></beans:property>-->
+<!--		&lt;!&ndash;제거내용이 로그로 남는다 초기에는 켜서 보다가 문제 없으면 꺼도 된다. 까끔 끊어진다고 크레임 있을 수 있으므로 켜놓고 운영하는게 좋다 &ndash;&gt;-->
+<!--		<beans:property name="logAbandoned" value="true"></beans:property>-->
+<!--	</beans:bean>-->
+	
+<!-- 	<beans:bean id="dataSourceLog" class="net.sf.log4jdbc.Log4jdbcProxyDataSource"> -->
+<!-- 		<beans:constructor-arg ref="dataSource" /> -->
+<!-- 		<beans:property name="logFormatter"> -->
+<!-- 			<beans:bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter"> -->
+<!-- 				<beans:property name="loggingType" value="MULTI_LINE" /> -->
+<!-- 				<beans:property name="sqlPrefix" value="SQL : "/> -->
+<!-- 			</beans:bean> -->
+<!-- 		</beans:property> -->
+<!-- 	</beans:bean> -->
+	
+</beans:beans>

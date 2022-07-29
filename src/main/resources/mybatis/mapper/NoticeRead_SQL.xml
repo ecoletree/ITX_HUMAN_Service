@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+	* Copyright (c) 2017 EcoleTree. All Rights Reserved.
+	* 
+	* Author : ysjang	
+	* Created : 2019. 12. 12.
+	* DESC : 공지사항
+-->
+<mapper namespace="kr.co.ecoletree.service.notice.mapper.NoticeReadMapper">
+	
+	<!--
+		공지사항 저장
+	 -->
+	<insert id="insertNoticeRead" parameterType="map">
+		insert into TB_NOTICE_READ
+		(
+			notice_cd
+			, tmr_id
+			, insert_dttm
+		) values 
+		(
+			#{notice_cd}
+			, #{tmr_id}
+			, now()
+		)
+		on duplicate key update
+			insert_dttm =  now()
+	</insert>
+	
+</mapper>

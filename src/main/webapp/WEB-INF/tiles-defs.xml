@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE tiles-definitions PUBLIC 
+	"-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" 
+	"http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<!-- 화면의 특정 영역만 교체하기 위해 사용 -->
+<!-- 해더는 둔 상태에서 바디 부분만 교체 -->
+
+<tiles-definitions>
+
+	<definition name=".homeMain" template="/WEB-INF/views/home.jsp">
+		<put-attribute name="homeHeader" value="/WEB-INF/views/layout/header.jsp" />
+		<put-attribute name="homeBody" value="/WEB-INF/views/layout/body.jsp" />
+		<put-attribute name="homeFooter" value="/WEB-INF/views/layout/footer.jsp" />
+	</definition>
+	<definition name=".*.*.*" extends=".homeMain">
+		<put-attribute name="homeBody" value="/WEB-INF/views/{1}/{2}/{3}.jsp" />
+	</definition>
+	<definition name=".*.*" extends=".homeMain">
+		<put-attribute name="homeBody" value="/WEB-INF/views/{1}/{2}.jsp" />
+	</definition>
+	<definition name=".*" extends=".homeMain">
+		<put-attribute name="homeBody" value="/WEB-INF/views/{1}.jsp" />
+	</definition>
+	
+	<definition name=".loginMain" template="/WEB-INF/views/login/loginMain.jsp">
+		<put-attribute name="loginBody" value="/WEB-INF/views/layout/body.jsp" />
+	</definition>
+	<definition name=".*.*.*" extends=".loginMain">
+		<put-attribute name="loginBody" value="/WEB-INF/views/{1}/{2}/{3}.jsp" />
+	</definition>
+	<definition name=".*.*" extends=".loginMain">
+		<put-attribute name="loginBody" value="/WEB-INF/views/{1}/{2}.jsp" />
+	</definition>
+	<definition name=".*" extends=".loginMain">
+		<put-attribute name="loginBody" value="/WEB-INF/views/{1}.jsp" />
+	</definition>
+	
+
+</tiles-definitions>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+	* Copyright (c) 2017 EcoleTree. All Rights Reserved.
+	* 
+	* Author : ysjang	
+	* Created : 2019. 12. 12.
+	* DESC : 이전상담이력
+-->
+<mapper namespace="kr.co.ecoletree.service.historyDetail.mapper.HistoryDetailMapper">
+	
+	<!-- 콜 정보 업데이트 -->
+	<update id="updateCallInfo" parameterType="map">
+		update TB_CALL 
+		set
+			state_cd = #{state_cd}
+		where 1=1
+		and	call_id = #{call_id}
+		and	global_id = #{global_id}
+		and	item_id = #{item_id}
+	</update>
+	
+	<!-- 콜 결과값 업데이트 -->
+	<update id="updateCallResult" parameterType="map">
+		update TB_CALLRESULT
+		set
+			cr_cd1 = #{cr_cd1}
+    		, cr_cd2 = #{cr_cd2}
+    		, cr_cd3 = #{cr_cd3}
+    		, cr_cd4 = #{cr_cd4}
+    		, cr_mm = #{cr_mm}
+    		, cr_mm_add = #{cr_mm_add}
+    	where 1=1
+    	and	call_id = #{call_id}
+    	and	cr_sno = #{cr_sno}
+	</update>
+	
+	<!-- 아웃바운드 상태 업데이트 -->
+    <update id="updateStateInfo" parameterType="map">
+    	update TB_STATE
+		set
+			state_cd = #{o_state_cd}
+			, state_scd = #{o_state_scd}
+			, state_dt = date_format(now(), '%Y%m%d')
+			, state_tm = date_format(now(), '%H%i%s')
+			, ccall_id = #{call_id}
+			, call_tcnt = call_tcnt + 1
+			, his_tcnt = his_tcnt + 1
+		where 1=1
+		and cust_id = #{cust_id};
+    </update>
+</mapper>

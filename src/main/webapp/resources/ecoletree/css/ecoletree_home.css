@@ -1,0 +1,986 @@
+
+.content{
+    height: 100%;
+    display: block;
+    position: absolute;
+    right: 0px;
+    left: 0px;
+    top: 0px;
+    bottom: 0px;
+}
+.contentPop{
+    height: 100%;
+    display: block;
+    padding: 10px;
+}
+#home_divNotice .popupBody{
+	height: 400px;
+}
+
+.bxBpMainWrap .row{
+	margin-right: 5px;
+    margin-left:  5px;
+    margin-bottom: 10px;
+}
+.bxBpMainWrap .col-xs-2, .bxBpMainWrap .col-xs-3, .bxBpMainWrap .col-xs-4, .bxBpMainWrap .col-xs-9, .bxBpMainWrap .col-xs-10, .bxBpMainWrap .col-xs-12{
+	padding-left: 2px;
+	padding-right: 5px;
+	padding-bottom: 5px;
+}
+.bxBpMainWrap .row input, .bxBpMainWrap .row select{
+	width: 100%;
+}
+.bxBpMainWrap .row p{
+    font-weight: 800;
+}
+
+.contentPop .row{
+	margin-right: 5px;
+    margin-left:  5px;
+    margin-bottom: 10px;
+}
+.contentPop .dataTables_wrapper .row{
+    margin-bottom: 0px;
+}
+.contentPop .col-xs-3, .contentPop .col-xs-4, .contentPop .col-xs-9, .contentPop .col-xs-12{
+	padding-left: 2px;
+	padding-right: 5px;
+	padding-bottom: 5px;
+}
+.contentPop .row input, .contentPop .row select{
+	width: 100%;
+}
+.contentPop .row p{
+    font-weight: 800;
+}
+
+/* ++++++++++++++++++++ login ++++++++++++++++++++ */
+.bxBPLoginWrap{
+	display: flex;
+	height: 100%;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+.bxBPLogin{
+	flex: 0 0 320px;
+	margin-top: 150px;
+}
+.bxBPLogin .wall{
+	border-radius: 10px;
+	border: 1px solid #dadada;
+	padding: 15px;
+}
+.bxBPLogin h1{
+	text-align: center;
+	color: #4b85a0;
+	font-size: 22px;
+	font-weight: 800;
+}
+.bxBPLogin p{
+	text-align: center;
+	font-size: 15px;
+	font-weight: 700;
+}
+
+.bxBPLogin input{
+	width: 100%;
+}
+.bxBPLogin button{
+	width: 100%;
+}
+
+/* ++++++++++++++++++++ pledge ++++++++++++++++++++ */
+.bxBpPledgeInfoWrap{
+	padding: 20px;
+}
+
+.bxBpPledgeInfoWrap .modalBtnSet .btnBlue{
+	width: 100%;
+	line-height: unset;
+	font-size: 16px;
+	height: unset;
+}
+.bxBpPledgeInfoWrap .modal-title, .bxBpPledgeInfoWrap .modal-body p{
+	font-size: 16px;
+}
+
+.bxBpPledgeInfo{
+	width: 700px;
+	margin:0px auto; 
+	font-size: 16px;
+}
+.bxBpPledgeInfo{
+	border-radius: 10px;
+	border: 1px solid #4b85a0;
+}
+.bxBpPledgeInfo .wallHead{
+	height: 32px;
+	display: flex;
+	justify-content: space-between;
+    align-items: center;
+	padding: 0px 10px 0px;
+	color: #ff5603;
+}
+.bxBpPledgeInfo .wallHead h6{
+	font-size: 16px !important;
+}
+.bxBpPledgeInfoWrap .btnBlue{
+	padding: 10px;
+	display: block;
+	text-align: center;
+	margin-top: 25px;
+}
+.pPledge{
+	padding-left: 0px;
+}
+.ulPledge{
+	list-style: decimal;
+	margin-left: 20px;
+	padding: 10px;
+}
+.ulPledge li{
+	margin-top: 5px;
+}
+
+
+.inputPledge{
+	position: absolute;
+	width: 100%;
+	left: 0px; right: 0px; top: 0px; bottom: 0px;
+	border-radius: 5px;
+	border: 0px solid #abb6bb;
+	min-height: 32px;
+	padding-left: 6px;
+	padding-right: 6px;
+	background: rgba(0, 0, 0, 0);
+	font-weight: 400;
+}
+.areaPledge{
+	position: absolute;
+	width: 100%;
+	left: 0px; right: 0px; top: 0px; bottom: 0px;
+	border-radius: 5px;
+	border: 0px solid #abb6bb;
+	min-height: 32px;
+	padding-left: 6px;
+	padding-right: 6px;
+	background: rgba(0, 0, 0, 0);
+	padding-top: 8px;
+	line-height: 1.6;
+	font-weight: 400;
+}
+
+
+.bxPledge{
+	position: relative;
+	border-radius: 5px;
+	border: 1px solid #abb6bb;
+	min-height: 32px;
+	padding-left: 6px;
+	padding-right: 6px;
+}
+.bxPledgeInline .bxPledge{
+	display: inline-block;
+} 
+.bxPledge.error{
+	background: #f0dee6;
+	border: 1px solid #c388a1;
+}
+.bxPledge>span{
+	position: absolute;
+    right: -500px;
+    left: 0px;
+    
+	display: none;
+	color: #b25a82;
+	font-size: 12px;
+}
+.bxPledge.error>span{
+	display: block;
+}
+.bxPledge.error input, .bxPledge.error textarea{
+	color: #b25a82;
+	font-weight: 400;
+}
+
+.bxPledge p{
+	padding-top: 4px;
+	color: #cccccc;
+}
+.txt24 .bxPledge p{
+	padding-top: 0px;
+	color: #cccccc;
+}
+
+.bxPledgeArea{
+	height: 150px;
+}
+.bxPledgeArea p{
+	padding-top: 7px;
+	color: #cccccc;
+}
+
+/* ++++++++++++++++++++ logout/404/500/Etc ++++++++++++++++++++ */
+.bxBPLogoutWrap{
+	display: flex;
+	height: 100%;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+.bxBPLogout{
+	flex: 0 0 280px;
+	margin-top: 150px;
+	text-align: center;
+}
+.bxBPLogout button{
+	width: 100%;
+}
+.bxBPMsgWrap{
+	display: flex;
+	height: 100%;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+.bxBPMsg{
+	flex: 0 0 450px;
+	margin-top: 150px;
+	text-align: center;
+}
+.bxBPMsg button{
+	width: 100%;
+}
+.bxBPMsg h1{
+	color: #7ba2b4;
+}
+
+
+/* ++++++++++++++++++++ Main ++++++++++++++++++++ */
+.bxBpMainWrap{
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	padding-top: 40px;
+}
+.bxNotifications{
+	border-radius: 5px;
+	position: fixed;
+	right: 5px; bottom: 5px;
+	
+	z-index: 99;
+	
+	background-color: #ff8e03;
+	color: #ffffff;
+	padding: 10px;
+	
+	max-width: 350px;
+}
+
+
+/*헤더*/
+.bxBpHeadWrap{
+	position: fixed;
+	top: 0px; left: 0px; right: 0px;
+	z-index: 10;
+}
+.bxBpHead{
+	display: flex;
+	justify-content: space-between;
+	background: #d7e1e5;
+	border-bottom: 1px solid #becad0;
+	border-top: 1px solid #dfd0b8;
+}
+
+.bxBpHead div:first-child{
+	padding: 0px 10px 0px;
+	display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.bxBpHead div:first-child img+p{
+	padding-left: 4px;
+}
+.bxBpHead div:first-child p+img{
+	padding-left: 10px;
+}
+.bxBpHead div:last-child {
+	display: flex;
+}
+.bxBpHead div:last-child a, .bxBpHead div:last-child button{
+	height: 38px;
+	color: #4b85a0;
+	padding: 0 10px;
+	border: 0px;
+	border-left: 1px solid #becad0;
+	background: #d7e1e5;
+	
+	display: flex;
+    align-items: center;
+}
+.bxBpHead div:last-child a:hover, .bxBpHead div:last-child button:hover{
+	color: #ff8e03;
+}
+.bxBpHead div:last-child a:hover>span.txtRed, .bxBpHead div:last-child button:hover>span.txtRed{
+	color: #ff0000;	
+}
+.bxBpHead div:last-child a img, .bxBpHead div:last-child button img{
+	padding-right: 5px;
+}
+
+/*예약콜*/
+.bxBpCallReservation{
+	flex: 0 0 auto; 
+	padding: 10px;
+	margin: 10px 10px 0px;
+	
+	border-radius: 10px;
+	border: 1px solid #4b85a0;
+	background: #f5f5f5;
+}
+.bxBpCallReservation .wallBody{padding: 10px;}
+.bxBpCallReservation h6{margin: 0px}
+.bxBpCallReservation div{display: inline-block;}
+.bxBpCallReservation .infoTitle{
+	color: #5290ae;
+	margin-left: 15px;
+}
+
+/*인입정보*/
+.bxBpCallInfo{
+	display: flex;
+	flex: 0 0 220px; 
+	padding: 10px;
+}
+.bxBpCallInfo .wallHead{
+	height: 32px;
+	display: flex;
+	justify-content: space-between;
+    align-items: center;
+	padding: 0px 10px 0px;
+}
+
+
+.bxBpCallUserInfo{
+	position: relative;
+	flex: 4 4 200px;
+	margin: 0px 5px 0px 0px;
+	border-radius: 10px;
+	border: 1px solid #4b85a0;
+}
+.bxBpCallMemoInfo{
+	flex: 5 5 800px;
+	margin: 0px 0px 0px 5px;
+	border-radius: 10px;
+	border: 1px solid #4b85a0;
+}
+.bxBpCallMemoWrap{
+	display: flex;
+	flex-direction: column;
+}
+.bxBpCallMemoWrap div.flexForm{
+	flex: 2 0 110px;
+}
+.bxBpCallMemoWrap div.flexFormItem{
+	flex: 1 1 50px;
+	overflow: hidden;
+}
+.bxMemo{
+	display: flex;
+	flex: 1 0 115px;
+	min-height: 115px;
+	border-radius: 5px;
+	border: 1px solid #abb6bb;
+	position: relative;
+	margin: 0px 5px 5px;
+	padding: 5px;
+}
+
+.bxMemo textarea{
+	flex: 1 1 auto;
+	border: 0px solid;
+	padding: 0px 3px;
+}
+
+.bxBpCallMemoWrap .row{
+	margin-right: 5px;
+    margin-left:  5px;
+    margin-bottom: 5px;
+}
+
+.bxBpCallMemoWrap .col-xs-3{
+	padding-left: 2px;
+	padding-right: 2px;
+}
+
+.bxBpCallMemoWrap .row select{
+	width: 100%;
+}
+
+.ListCodeWrap{
+	width: 100%;
+	height: 134px;
+	overflow: auto;
+	border: 1px solid #abb6bb;
+}
+.listCode{
+	width: 100%;
+}
+.listCode li{
+	width: 100%;
+	padding: 3px;
+	cursor: pointer;
+	line-height: 20px;
+	
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+
+
+.listCode li:nth-of-type(even){
+	background-color: #f9f9f9;
+}
+.listCode li:nth-of-type(even):hover{
+	background: #dfebf1;
+}
+.listCode li:hover{
+	background: #dfebf1;
+}
+.listCode li.sel{
+	background-color: #b3cedc !important;
+	color:#333333;
+}
+
+/*히스토리 리스트*/
+.bxBpHistory{
+	display: flex;
+	flex-direction: column;
+	flex: 1 1 auto; 
+	min-height: 200px;
+	margin: 0px 10px;
+	border-radius: 10px;
+	border: 1px solid #dadada;
+	
+	/*페이징 자리*/
+	position: relative;
+	padding-bottom: 40px; 
+}
+.btnHideHistory{
+	position: absolute;
+    right: 10px;
+    
+	font-size: 11px;
+	color: #333333;
+	
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+		
+    border: 1px solid #dadada;
+    background: #e8e8e8;
+}
+
+.bxBpHistory .wallHead{
+	flex: 0 0 auto;
+	display: flex;
+	align-items: flex-end;
+	flex-wrap: wrap;
+	padding: 10px;
+}
+.bxBpHistory .wallHead> .bxSearchForm+.bxSearchForm{
+	margin-left: 10px;
+}
+.bxSearchForm select{
+	max-width: 100px;
+}
+.bxBpHistory .wallHead p{
+	font-weight: 800;
+}
+.bxBpHistory .wallHead select+input{
+	width: 110px;
+}
+.bxBpHistory .wallHead .btnSearch{
+	display: inline-block;
+	height: 30px;
+	padding: 7px;
+	min-width:55px;
+	text-align: center;
+}
+
+.historyTableWrap{
+	flex: 1 1 auto;
+	overflow: auto;
+}
+.historyTableWrap .table-responsive{
+	height: 100%;
+}
+
+#history_tbList_wrapper .row:last-child{
+	position: absolute;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+}
+.historyTableWrap .pagination{
+	margin: 0px 0px;
+}
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover{
+	background-color: rgb(82,144,174);
+    background-color: -moz-linear-gradient(top, rgba(82,144,174,1) 0%, rgba(70,125,150,1) 100%);
+    background-color: -webkit-linear-gradient(top, rgba(82,144,174,1) 0%,rgba(70,125,150,1) 100%);
+    background-color: linear-gradient(to bottom, rgba(82,144,174,1) 0%,rgba(70,125,150,1) 100%);
+}
+
+/*히스토리 상세*/
+.bxShowHistoryDetail{
+	text-align: center;
+	padding-top: 15px;
+}
+.btnShowHistoryDetail{
+	font-size: 11px;
+	color: #333333;
+	
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+		
+	border: 1px solid #dadada;
+	background: #f5f5f5;
+}
+.btnHideHistoryDetail{
+	position: absolute;
+    left: 50%;
+    margin-left: -42px;
+    top: 0px;
+    
+	font-size: 11px;
+	color: #333333;
+	
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+		
+    border: 1px solid #dadada;
+    background: #e8e8e8;
+}
+
+.bxBpHistoryDetail{
+	position: relative;
+	display: flex;
+	flex: 0 0 220px; 
+	margin: 10px;
+	border-radius: 10px;
+	border: 1px solid #dadada;
+}
+.bxBpHistoryUserInfo{
+	flex: 4 4 200px;
+}
+.bxBpHistoryUserInfo .wallHead{
+	height: 32px;
+	display: flex;
+	justify-content: flex-start;
+    align-items: center;
+    
+	padding: 0px 10px 0px;
+	border-radius: 10px 0px 0px 0px;
+}
+
+.bxBpHistoryMemoInfo{
+	flex: 5 5 800px;
+}
+.bxBpHistoryMemoInfo .wallHead{
+	height: 32px;
+	display: flex;
+	justify-content: flex-end;
+    align-items: center;
+    
+	padding: 0px 10px 0px;
+	border-radius: 0px 10px 0px 0px;
+}
+.bxBpHistoryMemoInfo .wallBody{
+	border-left: 1px solid #dadada;
+}
+
+
+/*콜백, 공지사항, SMS,Talk알람*/
+.bxMainPopWrap{
+	width: 310px; 
+	position: fixed;
+	right: 5px;
+	top: 29px;
+	z-index: 11;
+	
+	-webkit-box-shadow: 0px 0px 7px rgba(0,0,0,0.5);
+	-moz-box-shadow: 0px 0px 7px rgba(0,0,0,0.5);
+	box-shadow: 0px 0px 7px rgba(0,0,0,0.5);
+}
+.bxMainPopWrap2{
+	width: 310px; 
+	position: fixed;
+    left: 5px;
+    top: 151px;
+	z-index: 11;
+	
+	-webkit-box-shadow: 0px 0px 7px rgba(0,0,0,0.5);
+	-moz-box-shadow: 0px 0px 7px rgba(0,0,0,0.5);
+	box-shadow: 0px 0px 7px rgba(0,0,0,0.5);
+}
+.bxMainPopWrap3{
+	width: 910px;
+	position: fixed;
+	right: 5px;
+	top: 29px;
+	z-index: 11;
+	
+	-webkit-box-shadow: 0px 0px 7px rgba(0,0,0,0.5);
+	-moz-box-shadow: 0px 0px 7px rgba(0,0,0,0.5);
+	box-shadow: 0px 0px 7px rgba(0,0,0,0.5);
+}
+.bxMainPopWrap4{
+	width: 220px;
+	position: absolute;
+    right: 10px;
+    top: 29px;
+	z-index: 11;
+	
+	-webkit-box-shadow: 0px 0px 7px rgba(0,0,0,0.5);
+	-moz-box-shadow: 0px 0px 7px rgba(0,0,0,0.5);
+	box-shadow: 0px 0px 7px rgba(0,0,0,0.5);
+}
+.bxPopScroll{
+	height: 310px;
+    overflow: hidden;
+    overflow-y: auto;
+}
+.tdCallTime span{
+	display: inline-block;
+	width: 64px;
+}
+
+.bxNoticeSearch{
+	position: relative;
+}
+.bxNoticeSearch input{
+	width: 100%;
+	padding-right: 26px;
+}
+.bxNoticeSearch a{
+	position: absolute;
+	top: 6px; right: 10px;
+}
+.tdNoticeTitle span{
+    width: 190px;
+    display: inline-block;
+    
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+	padding-top: 5px !important;
+}
+.tdNoticeTitle img{
+	float: right;
+	padding-top: 7px !important;
+}
+.popupBody .dataTables_wrapper>div.row:first-child{
+	height: 0px;
+	min-height: 0px;
+	margin-bottom: 0px;
+}
+
+.popForm input, .popForm select, .popForm textarea, .popForm button{
+	width: 100%;
+}
+.popForm div+div, .popForm div+textarea, .popForm textarea+div, .popForm div+button{
+	margin-top: 5px;
+}
+.popForm button{
+	padding: 10px;
+}
+.popForm .popFormHead{
+	position: fixed;
+	top: 0px; left: 0px; right: 0px;
+	display: flex;
+    justify-content: space-between;
+    padding: 5px 10px;
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+    background: #4b85a0;
+    border-radius: 0px; 
+    z-index: 9;
+}
+.popForm .popFormBody{
+    padding: 10px;
+    padding-top: 57px;
+}
+.popForm .popFormBody p{
+	font-weight: 800;
+}
+.popForm .bxBpHistory{
+	margin: 0px 0px;
+}
+.popForm .ecloeScrollTableContainer{
+	height: 200px;
+}
+.popForm .ecloeScrollTableWrap{
+	margin-top: 0px;
+}
+.popForm ul{
+	max-height: 170px;
+	overflow: auto;
+}
+.popForm ul li{
+	display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+	border-bottom: 1px solid #e5e5e5;
+    vertical-align: middle;
+    word-break: break-all;
+    padding: 10px;
+}
+.popForm ul li:nth-of-type(even){
+    background-color: #f9f9f9;
+}
+.popForm ul li:last-child{
+	border-bottom: 0px solid #e5e5e5;
+}
+.popForm ul li:hover {
+    background-color: #d9e7ee !important;
+}
+
+.popFormBody .row{
+	margin-left: 0px;
+	margin-right: 0px;
+	margin-top: 0px;
+	
+	border-bottom: 1px solid #cccccc;
+	
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+.popFormBody .row:nth-of-type(even){
+	background: #f5f5f5;
+}
+.popFormBody .row div+div{
+	margin-top: 0px;
+}
+
+.tareaSms{
+	background: #d7eeef;
+	height: 125px;
+}
+.tareaTalk{
+	background: #f6eabf;
+	height: 125px;
+}
+
+/*공지사항 상세 팝업창*/
+.bxNoticeDetailWrap h6{
+	display: block;
+	border-top: 2px solid #4b85a0;
+	border-bottom: 1px solid #cccccc;
+	
+	padding: 10px;
+	margin: 0px;
+}
+.bxNoticeDetailWrap a{
+	display: block;
+	color: #7ba2b4;
+	border-bottom: 1px solid #cccccc;
+	
+	padding: 10px;
+}
+.bxNoticeDetailWrap a:hover{
+	text-decoration: underline;
+}
+.bxNoticeDetailWrap p{
+	padding: 10px;
+	word-break:break-all;
+}
+
+/*히스토리 상세보기 팝업창*/
+.bxHistoryDetail{
+	border-radius: 10px;
+	border: 1px solid #dadada;
+}
+.bxHistoryDetailWrap .wallHead{
+	height: 32px;
+	display: flex;
+	justify-content: space-between;
+    align-items: center;
+	padding: 0px 10px 0px;
+}
+.bxHistoryDetail .bxMemo textarea{
+	height: 200px;
+}
+
+/*보건소, 대책반 팝업*/
+.bxHealthCenterWrap .bxBpHistory{
+	min-height: 100%;
+}
+.bxSpecialTaskForceWrap .bxBpHistory{
+	min-height: 100%;
+}
+.bxSpecialTaskForceWrap .bxBpHistory{
+	margin-bottom: 10px;
+	
+}
+.bxSpecialTaskForceWrap .ecloeTable>tbody>tr>td {
+    background-color: #ffffff !important;
+}
+.bxSpecialTaskForceWrap .ecloeTable>tbody>tr:nth-of-type(even)>td {
+    background-color: #ffffff !important;
+}
+.bxSpecialTaskForceWrap .ecloeTable>tbody>tr.gray:nth-of-type(even)>td {
+	background-color: #f9f9f9 !important;;
+}
+.bxSpecialTaskForceWrap .ecloeTable>tbody>tr.gray>td {
+	background-color: #f9f9f9 !important;;
+}
+
+/*히스토리 리스트 상세 팝업*/
+.bxHistoryListDetailWrap{
+	padding-bottom: 0px;
+	display: flex;
+	flex-direction: column;
+}
+.bxHistoryListDetailWrap .bxBpHistory{
+	flex: 1 1 200px;
+}
+.bxHistoryListDetailWrap .bxBpHistoryDetail{
+	flex: 1 1 200px;
+	flex-direction: column;
+	border: 0px;
+	overflow-y: auto; 
+}
+.bxHistoryListDetailWrap .bxBpHistoryDetail>div{
+	position: relative;
+}
+.bxHistoryListDetailWrap .bxBpHistoryDetail .wallHead{
+	height: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 10px 0px;
+}
+
+/*미저장 등록 팝업*/
+.bxSaveInfoWrap{
+	padding-bottom: 0px;
+	display: flex;
+	flex-direction: column;
+}
+.bxSaveInfoWrap .bxBpHistory{
+	flex: 1 1 200px;
+}
+.bxSaveInfoWrap .bxBpHistoryDetail{
+	flex: 1 1 200px;
+	flex-direction: column;
+	border: 0px;
+	overflow-y: auto;
+}
+.bxSaveInfoWrap .bxBpHistoryDetail>div{
+	position: relative;
+}
+
+.bxSaveInfoWrap .bxBpHistoryDetail .wallHead{
+	height: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 10px 0px;
+}
+.bxSaveInfoWrap .time select{
+	display: inline-block;
+	width: 60px;
+}
+
+/*긴급알람*/
+.bxEmergencyAlert{
+	background: #ff5603;
+	border-radius: 5px;
+	
+    padding: 10px 15px;
+    margin: 10px 10px 0px;
+    
+    vertical-align: middle;
+    font-size: 14px;
+	
+	font-size: 14px;
+	color: #ffffff;
+}
+.bxEmergencyAlert img{
+	margin-right: 10px;
+}
+.bxEmergencyAlert a{
+	line-height: 37px;
+	font-size: 12px;
+	color: #ffffff;
+}
+/*공지알람*/
+.bxNoticeAlert{
+	background: #508eab;
+	border-radius: 5px;
+	
+    padding: 10px 15px;
+    margin: 10px 10px 0px;
+    
+    vertical-align: middle;
+    font-size: 14px;
+	
+	font-size: 14px;
+	color: #ffffff;
+}
+.bxNoticeAlert img{
+	margin-right: 10px;
+}
+.bxNoticeAlert a{
+	line-height: 37px;
+	font-size: 12px;
+	color: #ffffff;
+}
+/*민원알람*/
+.bxaddNoteAlert{
+	background: #3e3e3e;
+	border-radius: 5px;
+	
+    padding: 10px 15px;
+    margin: 10px 10px 0px;
+    
+    vertical-align: middle;
+    font-size: 14px;
+	
+	font-size: 14px;
+	color: #ffffff;
+}
+.bxaddNoteAlert img{
+	margin-right: 10px;
+}
+.bxaddNoteAlert a{
+	line-height: 37px;
+	font-size: 12px;
+	color: #ffffff;
+}
+/*아웃바운드 프리뷰*/
+.bxMainPopWrap3 .popupBody{
+	height: 515px;
+}
+.bxMainPopWrap3 .bxBpHistory{
+	margin: 0px;
+}
+.bxMainPopWrap3 .bxSearchFormRow{
+	flex: 0 0 auto;
+    display: flex;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+.bxMainPopWrap3 .bxSearchFormRow .bxSearchForm+.bxSearchForm{
+	margin-left: 10px;
+}
+.bxMainPopWrap3 .bxSearchFormRow+.bxSearchFormRow{
+	margin-top: 10px;
+}
+.bxMainPopWrap3 .bxSearchForm select{
+	max-width: 170px;
+}
+.bxMainPopWrap3 .bxSearchForm select+select{
+	min-width: 170px;
+}

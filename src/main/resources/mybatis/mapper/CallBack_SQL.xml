@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+	* Copyright (c) 2017 EcoleTree. All Rights Reserved.
+	* 
+	* Author : ysjang	
+	* Created : 2019. 12. 12.
+	* DESC : 콜백 처리
+-->
+<mapper namespace="kr.co.ecoletree.service.callback.mapper.CallBackMapper">
+	
+	
+	<!--
+		콜백 리스트 조회
+	 -->
+	<select id="selectNewCallBackList" parameterType="map" resultType="map">
+		select 
+			@rownum := @rownum + 1 as rownum
+			, FN_DECRYPT(a.tel, #{schema_en_key}) as tel
+			, a.tel as db_tel
+			, a.key_in_number
+			, a.cb_date
+			, a.cb_time
+			, null as cust_id
+			, a.service_name 
+<!-- 			, (select cust_id from TB_CUST where hand_tel = a.tel limit 0,1) as cust_id -->
+			, date_format(concat(a.cb_date,a.cb_time),'%H:%i:%s') as view_cb_time 
+		from 
+			TB_CALLBACK a
+			inner join  (SELECT @rownum:=0) a2
+		where 1=1
+		and a.tmr_id = #{tmr_id}
+   		and a.exec_call_id is null
+   		order by concat(a.cb_date,a.cb_time) asc
+	</select>
+	
+	<!--
+		콜백 신규 갯수 조회
+	 -->
+	<select id="selectNewCallBackCount" parameterType="map" resultType="int">
+		select 
+			count(*) as cnt
+		from 
+			TB_CALLBACK a
+		where 1=1
+		and a.tmr_id = #{tmr_id}
+   		and a.exec_call_id is null
+	</select>
+	
+	<!-- 예약 콜 한 후에 해당 정보를 저장 -->
+    <update id="updateOutboundCallBack" parameterType="map">
+    	update TB_CALLBACK
+    	set
+    		exec_call_id = #{exec_call_id}
+    		, exec_dt = date_format(now(), '%Y%m%d')
+    		, exec_tm = date_format(now(), '%H%i%s')
+    		, exec_state = #{exec_state}
+    		, update_dt = date_format(now(), '%Y%m%d')
+    		, update_tm = date_format(now(), '%H%i%s')
+    		, update_id = #{session_tmr_id}
+    	where
+    		cb_date = #{cb_date}
+    		and cb_time = #{cb_time}
+    </update>
+	
+</mapper>

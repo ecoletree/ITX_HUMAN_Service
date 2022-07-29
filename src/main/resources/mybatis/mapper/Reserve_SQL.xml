@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+	* Copyright (c) 2017 EcoleTree. All Rights Reserved.
+	* 
+	* Author : ysjang	
+	* Created : 2019. 12. 12.
+	* DESC : 예약콜 처리
+-->
+<mapper namespace="kr.co.ecoletree.service.reserve.mapper.ReserveMapper">
+	
+	
+	<!--
+		예약콜 리스트 조회
+	 -->
+	<select id="selectNewReserveList" parameterType="map" resultType="map">
+		select 
+			@rownum := @rownum + 1 as rownum
+			, a.call_id
+			, date_format(str_to_date(concat(a.reserv_dt,' ',a.reserv_tm), '%Y%m%d %H%i'),'%Y.%m.%d %H:%i') as view_reserv_dttm
+			, a.reserv_mm
+			, (select cust_nm from TB_CUST b where a.cust_id = b.cust_id) as cust_nm
+			, a.cust_id
+			, FN_DECRYPT(a.tel, #{schema_en_key}) as tel
+			, concat(a.tmr_id) as tmr_id
+			, concat(a.oldtmr_id) as oldtmr_id
+		from 
+			TB_CALLRESERVED a
+			inner join  (SELECT @rownum:=0) a2
+		where 1=1
+		and a.tmr_id = #{tmr_id}
+   		and a.exec_call_id is null
+   		order by concat(a.reserv_dt,a.reserv_tm) asc 
+	</select>
+	
+	<!--
+		예약콜 신규 갯수 조회
+	 -->
+	<select id="selectNewReserveCount" parameterType="map" resultType="int">
+		select 
+			count(*) as cnt
+		from 
+			TB_CALLRESERVED a
+		where 1=1
+		and a.tmr_id = #{tmr_id}
+   		and a.exec_call_id is null
+	</select>
+	
+	<!-- 예약콜 저장 -->
+    <insert id="insertCallReserved" parameterType="map">
+    	insert into TB_CALLRESERVED (
+    		call_id
+    		, cust_id
+    		, tmr_id
+    		, oldtmr_id
+    		, tel
+    		, reserv_dt
+    		, reserv_tm
+    		, reserv_mm
+    		, make_dttm
+    		, insert_dt
+    		, insert_tm
+    		, insert_id
+    	) values (
+    		#{call_id}
+    		, #{cust_id}
+    		, #{rev_tmr_id}
+    		, #{tmr_id}
+    		, FN_ENCRYPT(#{rev_tel}, #{schema_en_key})
+    		, date_format(str_to_date(#{rev_dt}, '%Y.%m.%d'), '%Y%m%d') 
+    		, concat(#{rev_hour}, #{rev_min})
+    		, #{rev_mm}
+    		, now()
+    		, date_format(now(), '%Y%m%d')
+    		, date_format(now(), '%H%i%s')
+    		, #{session_tmr_id}
+    	)
+    </insert>
+    
+    <update id="updateCallReserved" parameterType="map">
+    	update TB_CALLRESERVED
+    	set
+    		tmr_id = #{tmr_id}
+    		, oldtmr_id = #{rev_tmr_id}
+    		, tel = FN_ENCRYPT(#{rev_tel}, #{schema_en_key})
+    		, reserv_dt = date_format(str_to_date(#{rev_dt}, '%Y.%m.%d'), '%Y%m%d') 
+    		, reserv_tm = concat(#{rev_hour}, #{rev_min})
+    		, reserv_mm = #{rev_mm}
+    		, update_dt = date_format(now(), '%Y%m%d')
+    		, update_tm = date_format(now(), '%H%i%s')
+    		, update_id = #{session_tmr_id}
+    	where
+    		call_id = #{call_id}
+    </update>
+    
+    <select id="selectCallReserved" parameterType="map" resultType="map">
+		select
+			call_id
+			, concat(a.cust_id) as cust_id
+			, concat(a.tmr_id) as rev_tmr_id
+		    , b.tmr_nm
+		    , b.team_cd
+		    , (select team_name from TB_TEAM_MST where team_cd = b.team_cd) as team_name
+			, concat(a.oldtmr_id) as oldtmr_id
+			, concat(FN_ENCRYPT(a.tel, #{schema_en_key})) as tel
+		    , concat(a.reserv_dt) as reserv_dt
+			, date_format(str_to_date(a.reserv_dt, '%Y%m%d'), '%Y.%m.%d') as rev_dt
+			, concat(a.reserv_tm) as reserv_tm
+		    , substring(a.reserv_tm, 1, 2) as rev_hour
+		    , substring(a.reserv_tm, 3, 2) as rev_min
+			, a.reserv_mm
+			, a.make_dttm
+		from 
+			TB_CALLRESERVED a
+		    , TB_TMR b
+		where 1=1
+		and a.tmr_id = b.tmr_id
+		and call_id = #{call_id}
+    </select>
+    
+    <!-- 예약콜한 후에 해당 정보를 저장 -->
+    <update id="updateOutboundCallReserved" parameterType="map">
+    	update TB_CALLRESERVED
+    	set
+    		exec_call_id = #{exec_call_id}
+    		, exec_dt = date_format(now(), '%Y%m%d')
+    		, exec_tm = date_format(now(), '%H%i%s')
+    		, exec_state = #{exec_state}
+    		, update_dt = date_format(now(), '%Y%m%d')
+    		, update_tm = date_format(now(), '%H%i%s')
+    		, update_id = #{session_tmr_id}
+    	where
+    		call_id = #{call_id}
+    </update>
+</mapper>

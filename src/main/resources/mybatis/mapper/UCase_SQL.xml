@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+	* Copyright (c) 2017 EcoleTree. All Rights Reserved.
+	* 
+	* Author : ysjang	
+	* Created : 2019. 12. 12.
+	* DESC : 긴급전달
+-->
+<mapper namespace="kr.co.ecoletree.service.ucase.mapper.UCaseMapper">
+	
+	<!--
+		긴급전달 리스트 조회
+	 -->
+	<select id="selectUCaseList" parameterType="map" resultType="map">
+		select 
+			@rownum := @rownum + 1 as rownum
+			, a.uc_id
+			, a.cust_name
+			, a.birth
+			, a.country
+			, a.r_name
+			, FN_DECRYPT(a.tel, #{schema_en_key}) as tel
+			, a.loc_gb
+			, FN_FCODENAME('091',a.loc_gb,'***','***','***','') view_loc_gb
+			, a.addr
+			, a.vc_name
+			, a.via_name
+			, a.dep_dt
+			, date_format(a.dep_dt, '%Y.%m.%d') as view_dep_dt
+			, a.arr_dt
+			, date_format(a.arr_dt, '%Y.%m.%d') as view_arr_dt
+			, a.sym_dt
+			, date_format(a.sym_dt, '%Y.%m.%d') as view_sym_dt
+			, a.sym_desc
+			, a.medicine
+			, a.etc
+			, a.r_code
+			, FN_FCODENAME('092',a.r_code,'***','***','***','') view_r_code
+			, a.r_tmr
+			, a.call_dt
+			, a.call_tm
+			, a.insert_tmr
+			, a.insert_dttm
+			, date_format(a.insert_dttm, '%Y.%m.%d %H:%i') as view_insert_dttm
+			, a.update_tmr
+			, a.update_dttm
+			, a.c_tmr
+		from TB_UCASE a 
+	    inner join  (SELECT @rownum:=0) a2
+	    where 1=1
+	    and a.r_code = '001'
+	    and a.c_tmr = #{tmr_id}
+		order by a.r_code, a.insert_dttm asc 
+	</select>
+	
+	<!--
+		긴급전달 카운트 조회
+	 -->
+	<select id="selectUCaseCount" parameterType="map" resultType="int">
+		select 
+			count(*) as cnt
+		from TB_UCASE a
+	    where 1=1
+	    and a.r_code = '001'
+	    and a.c_tmr = #{tmr_id} 
+	</select>
+	
+	<!--
+		긴급전달 신규 갯수 조회
+	 -->
+	<select id="selectNewUCaseCount" parameterType="map" resultType="int">
+		select 
+			count(*) as cnt
+		from TB_UCASE a 
+	    where 1=1
+	    and a.r_code = '001'
+	    and a.c_tmr = #{tmr_id}
+	</select>
+	
+	<!--
+		긴급전달 저장및 수정
+	 -->
+	<update id="upsertUCase" parameterType="map" >
+		insert into TB_UCASE
+		(
+			uc_id
+			, cust_name
+			, birth
+			, country
+			, r_name
+			, tel
+			, loc_gb
+			, addr
+			, vc_name
+			, via_name
+			, dep_dt
+			, arr_dt
+			, sym_dt
+			, sym_desc
+			, medicine
+			, etc
+			, r_code
+			, r_tmr
+			, c_tmr
+			, call_dt
+			, call_tm
+			, insert_tmr
+			, insert_dttm
+			, update_tmr
+			, update_dttm
+		) values 
+		(
+			#{uc_id}
+			, #{cust_name}
+			, #{birth}
+			, #{country}
+			, #{r_name}
+			, FN_ENCRYPT(#{tel}, #{schema_en_key})
+			, #{loc_gb}
+			, #{addr}
+			, #{vc_name}
+			, #{via_name}
+			, #{dep_dt}
+			, #{arr_dt}
+			, #{sym_dt}
+			, #{sym_desc}
+			, #{medicine}
+			, #{etc}
+			, #{r_code}
+			, #{r_tmr}
+			, #{c_tmr}
+			, null
+			, #{call_tm}
+			, #{tmr_id}
+			, now()
+			, #{tmr_id}
+			, now()
+		)
+		on duplicate key update
+			cust_name = #{cust_name}
+			, birth = #{birth}
+			, country = #{country}
+			, r_name = #{r_name}
+			, tel = FN_ENCRYPT(#{tel}, #{schema_en_key})
+			, loc_gb = #{loc_gb}
+			, addr = #{addr}
+			, vc_name = #{vc_name}
+			, via_name = #{via_name}
+			, dep_dt = #{dep_dt}
+			, arr_dt = #{arr_dt}
+			, sym_dt = #{sym_dt}
+			, sym_desc = #{sym_desc}
+			, medicine = #{medicine}
+			, etc = #{etc}
+			, r_code = #{r_code}
+			, r_tmr = #{r_tmr}
+			, c_tmr = #{c_tmr}
+			, call_dt = now()
+			, call_tm = #{call_tm}
+			, update_tmr = #{tmr_id}
+			, update_dttm = now()
+	</update>
+	
+</mapper>

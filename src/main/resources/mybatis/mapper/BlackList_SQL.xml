@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+	* Copyright (c) 2017 EcoleTree. All Rights Reserved.
+	* 
+	* Author : ysjang	
+	* Created : 2020. 01. 09.
+	* DESC : 고객정보 / 상담내용
+-->
+<mapper namespace="kr.co.ecoletree.service.callInfo.mapper.BlackListMapper">
+
+    
+    <!-- 악성민원인 등록 -->
+    <insert id="insertBlackList" parameterType="map">
+    	insert into kcdc_blk_list (
+			blk_reg_time
+			, blk_reg_phone 
+			, blk_cd
+			, blk_voice_url
+			, tmr_id
+			, tmr_nm
+			, delete_yn
+    	) values (
+			now() 
+        	, FN_ENCRYPT(#{blk_reg_phone}, #{schema_en_key})
+			, #{blk_cd}
+			, #{blk_voice_url}
+			, #{session_tmr_id}
+			, #{session_tmr_nm}
+			, 'N'
+        )
+    </insert>
+    
+    <!-- 악성민원인 코드 -->
+    <select id="selectBlackCodeList" parameterType="map" resultType="map">
+    	select
+    		a.blk_cd
+    		, a.blk_name
+    	from 
+    	kcdc_blk_code a
+    </select>
+    
+    <!-- 악성민원인 신규 숫자 -->
+    <select id="selectBlackListCount" parameterType="map" resultType="int">
+    	select 
+		count(*) as cnt
+    	from
+    		kcdc_blk_list black
+			left join 
+			kcdc_blk_read br
+			on br.blk_no = black.blk_no
+			and br.tmr_id = #{tmr_id}
+    	where 1=1
+    		and black.delete_yn = 'N'
+            and br.tmr_id is null
+    </select>
+</mapper>

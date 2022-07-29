@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+	* Copyright (c) 2017 EcoleTree. All Rights Reserved.
+	* 
+	* Author : ysjang	
+	* Created : 2019. 12. 12.
+	* DESC : BP API 연동 처리
+-->
+<mapper namespace="kr.co.ecoletree.service.home.mapper.HomeMapper">
+
+	<!--
+		등록된 고객 정보 가져오기
+	 -->
+	<select id="selectCustId" parameterType="map" resultType="map">
+		select 
+			a.cust_id 
+		from 
+			TB_CUST a, 
+			(
+				select FN_ENCRYPT(FN_DELTAB(#{hand_tel}),#{schema_en_key}) as tel from dual
+			) b 
+		where a.hand_tel = b.tel
+		LIMIT 1
+	</select>
+	
+	<!-- 고객번호가 없을 경우 채번 -->
+	<select id="selectNewCustId" parameterType="map" resultType="string">
+		select 
+			concat((date_format(now(),'%y')),(ifnull(substr(max(cust_id),3,10),'0000000000'))) + 1 as cust_id 
+		from 
+			TB_CUST
+		where substr(cust_id,1,2) = date_format(now(),'%y')
+	</select>
+	
+	<!-- 고객 정보 등록 -->
+	<insert id="insertCustomer" parameterType="map">
+		insert into 
+		TB_CUST (
+			cust_id,
+			hand_tel, 
+			cust_nm, 
+			camp_id, 
+			campaign_code, 
+			campaign_sub_code, 
+			reg_date, 
+			reg_id
+		) values (
+			#{cust_id}, 
+			FN_ENCRYPT(FN_DELTAB(#{hand_tel}), #{schema_en_key}), 
+			'미등록 고객', 
+			'100000001', 
+			'100000', 
+			'001',
+			now(), 
+			#{tmr_id}
+		)
+	</insert>
+	
+	<!-- 콜 정보 등록 -->
+	<insert id="insertCallInfo" parameterType="map">
+		insert into 
+		TB_CALL (
+			call_id, 
+			global_id, 
+			item_id, 
+			tel, 
+			camp_id, 
+			cust_id, 
+			tmr_id, 
+			tmr_nm, 
+			call_bdt, 
+			call_btm,  
+			call_bdttm, 
+			io_flag
+		) values (
+			#{call_id}, 
+			#{global_id}, 
+			#{item_id}, 
+			FN_ENCRYPT(FN_DELTAB(#{hand_tel}), #{schema_en_key}), 
+			'100000001', 
+			#{cust_id}, 
+			#{tmr_id}, 
+			#{tmr_nm}, 
+			date_format(now(),'%Y%m%d'), 
+			date_format(now(),'%H%i%s'), 
+			now(), 
+			#{io_flag}
+			)
+	</insert>
+	
+	<!-- 콜 정보 등록시 체크 -->
+	<select id="selectCallInfoCheck" parameterType="map" resultType="int">
+		select 
+			count(*) as cnt
+		from 
+		TB_CALL 
+		where 1=1 
+		and call_id = #{call_id}
+		and global_id = #{global_id}
+		and item_id = #{item_id}
+	</select>
+	
+	<!-- 팀 정보를 가져온다 -->
+	<select id="selectTeamList" parameterType="map" resultType="map">
+		select 
+			team_cd
+			,team_name
+		from 
+		TB_TEAM_MST
+		where 
+		is_delete = 'N'
+	</select>
+	
+	<!-- 메시지 전송 스크립트 조회 -->
+	<select id="selectScriptList" parameterType="map" resultType="map">
+	<![CDATA[
+		select distinct
+			gb_code
+            , null as p_code_cd
+            , concat(gb_code, '000') as code_cd
+            , FN_FCODENAME('080',gb_code,'***','***','***','') as gb_name
+		    , null as sc_code
+		    , null as sc_name
+		    , null as template_code
+		    , null as template_key
+		    , null as sentent_mm
+            , null as type
+		from       
+          TB_SCRIPT
+		where 1=1
+		and delete_gb = '0'
+     	union            
+		select
+			gb_code
+            , concat(gb_code, '000') as p_code_cd
+            , concat(gb_code, sc_code) as code_cd
+            , FN_FCODENAME('080',gb_code,'***','***','***','') as gb_name
+		    , sc_code
+		    , FN_FCODENAME('080',gb_code,sc_code,'***','***','') as sc_name
+		    , template_code
+		    , template_key
+		    , sentent_mm
+            , (case 
+					when gb_code = '001' then 'at'
+					when (gb_code = '002' and char_length(sentent_mm) > 44) then 'lms'
+                    when (gb_code = '002' and char_length(sentent_mm) < 45) then 'sms'
+			   end) as type
+		from 
+			TB_SCRIPT
+		
+		where 1=1
+		and delete_gb = '0'
+		order by gb_code, sc_code
+	]]>
+	</select>
+	
+	<select id="selectDBDate" parameterType="map" resultType="map">
+		select date_format(now(), '%Y-%m-%d %H:%i:%s') as call_edttm from dual
+	</select>
+	
+	<select id="selectCTMRList" parameterType="map" resultType="map">
+		select
+			a.tmr_id
+			, a.tmr_nm 
+		from 
+		TB_TMR a
+		where 1=1
+		and a.is_delete = 'N'
+		and a.tmr_id in
+		<foreach collection="c_tmrlist" open="(" close=")" index="i" separator="," item="tmr">
+       		#{tmr}
+       	</foreach>
+	</select>
+	
+	<!-- 모니터링 상태를 위해서 저장 -->
+	<insert id="insertCTIStatus" parameterType="map">
+	<![CDATA[
+		insert into
+		TB_CTI_STATUS (
+			tmr_id
+			, log_bdt 
+			, log_edt 
+			, state 
+			, device 
+		) values (
+			#{tmr_id} 
+			, now() 
+			, null 
+			, #{state} 
+			, null 
+		)
+		ON DUPLICATE KEY UPDATE
+            log_edt = log_bdt
+            , log_bdt = now()
+            , state = #{state}  
+		
+	]]>
+	</insert>
+	
+	<insert id="insertCTIStatusHistory" parameterType="map">
+	<![CDATA[
+		insert into
+		TB_CTI_STATUS_HISTORY (
+			tmr_id
+			, log_bdt 
+			, state 
+			, device 
+		) values (
+			#{tmr_id} 
+			, now() 
+			, #{state} 
+			, null 
+		)
+	]]>
+	</insert>
+	
+	<!-- 아웃바운드에서 자신이 속한 캠페인 리스트 검색 --> 
+	<select id="selectMyCampaignList" parameterType="map" resultType="map">
+		select 
+			a.camp_id as campaign_id
+            , b.campaign_name
+            , b.campaign_layout_cd
+		from
+			TB_STATE a
+            , TB_CAMPAIGN b
+		where 1=1
+        and a.camp_id = b.campaign_id
+        and a.tmr_id = #{tmr_id}
+        and b.is_end = 'N'
+        group by a.camp_id
+        
+	</select>
+	
+	<!-- 아웃바운드에서 선택한 캠페인의 db 레이아웃 검색 --> 
+	<select id="selectDBLayoutByCompaign" parameterType="map" resultType="map">
+		select 
+			a.campaign_layout_cd
+			, a.layout_cd
+		    , a.header_name
+		    , a.layout_type
+		    , a.is_prime
+		    , a.is_enc
+		    , a.is_key
+		    , a.is_search
+		    , a.is_like
+		from 
+			TB_DBLAYOUT a
+		where 1=1
+		and a.campaign_layout_cd = #{campaign_layout_cd}
+	</select>
+	
+	<!-- 아웃바운드에서 DB 상태에 표시할 code 정보 가져오기 -->
+	<select id="selectOutboundCodeList" parameterType="map" resultType="map">
+		select
+	        code
+	        , item1
+	        , item2
+	        , item3
+	        , item4
+	        , item_nm
+	        , value1
+	        , value2
+	        , value3
+	        , delete_gb
+	     from 
+	        TB_CODE
+	     where 1=1
+	     and delete_gb = 0 
+	     and code = '100'
+	     and item1 not in ('***', '000', '010', 'A00') 
+	     order by code, item1, item2, item3 
+	</select>
+	
+	<!-- 아웃바운드에서 자신에게 할당된 DB 리스트 카운트 --> 
+	<select id="selectMyDBListCount" parameterType="map" resultType="int">
+		select
+			count(*) as cnt
+		from
+			TB_STATE a
+			, TB_DBLIST b
+			, TB_CUST c
+			, TB_CAMPAIGN d
+			<foreach collection="searchList" item="item">
+			${item.fromStr}
+			</foreach>
+		where 1=1
+		and a.cust_id = c.cust_id
+		and b.dblist_cd = c.cust_num
+		and a.camp_id = d.campaign_id
+		and a.state_cd not in ('000','A00')
+		and a.tmr_id = #{tmr_id}
+		and a.camp_id = #{campaign_id}
+		<if test='state_cd != null and !state_cd.equals("")'>
+		and a.state_cd = #{state_cd}
+		</if>
+		<if test='state_scd != null and !state_scd.equals("")'>
+		and a.state_scd = #{state_scd}
+		</if>
+		<choose>
+			<when test="sdate != null and edate != null">
+				and date_format(a.share_dt, '%Y.%m.%d') between date_format(#{sdate}, '%Y.%m.%d') and date_format(#{edate}, '%Y.%m.%d') 
+			</when>
+			<when test="sdate != null">
+				<![CDATA[
+				and date_format(#{sdate}, '%Y.%m.%d') <= date_format(a.share_dt, '%Y.%m.%d')
+				]]>
+			</when>
+			<when test="edate != null">
+				<![CDATA[
+				and date_format(a.share_dt, '%Y.%m.%d') <= date_format(#{edate}, '%Y.%m.%d')
+				]]>
+			</when>
+		</choose>
+		<foreach collection="searchList" item="item">
+		${item.whereStr}
+		</foreach>
+	</select>
+	
+	<!-- 아웃바운드에서 자신에게 할당된 DB 리스트 검색 --> 
+	<select id="selectMyDBList" parameterType="map" resultType="map">
+		select
+			@rownum := @rownum + 1 as rownum
+			, A.*
+		from (
+			select
+				a.cust_id
+				, a.state_cd
+				, a.state_scd
+				, FN_FCODENAME('100',a.state_cd,a.state_scd,'***','***','') as view_state_scd
+				, b.dblist_cd
+				, c.cust_nm
+				, c.cust_num
+				, c.camp_id as campaign_id
+				, d.campaign_name as campaign_name
+				, date_format(a.share_dt, '%Y.%m.%d') as view_share_dt
+				, concat(date_format(a.state_dt, '%Y.%m.%d'), ' ', date_format(a.state_tm, '%H%i')) as view_state_dt
+			from
+				TB_STATE a
+				, TB_DBLIST b
+				, TB_CUST c
+				, TB_CAMPAIGN d
+				<foreach collection="searchList" item="item">
+				${item.fromStr}
+				</foreach>
+			where 1=1
+			and a.cust_id = c.cust_id
+			and b.dblist_cd = c.cust_num
+			and a.camp_id = d.campaign_id
+			and a.state_cd not in ('000','A00')
+			and a.tmr_id = #{tmr_id}
+			and a.camp_id = #{campaign_id}
+			<if test='state_cd != null and !state_cd.equals("")'>
+			and a.state_cd = #{state_cd}
+			</if>
+			<if test='state_scd != null and !state_scd.equals("")'>
+			and a.state_scd = #{state_scd}
+			</if>
+			<choose>
+				<when test="sdate != null and edate != null">
+					and date_format(a.share_dt, '%Y.%m.%d') between date_format(#{sdate}, '%Y.%m.%d') and date_format(#{edate}, '%Y.%m.%d') 
+				</when>
+				<when test="sdate != null">
+					<![CDATA[
+					and date_format(#{sdate}, '%Y.%m.%d') <= date_format(a.share_dt, '%Y.%m.%d')
+					]]>
+				</when>
+				<when test="edate != null">
+					<![CDATA[
+					and date_format(a.share_dt, '%Y.%m.%d') <= date_format(#{edate}, '%Y.%m.%d')
+					]]>
+				</when>
+			</choose>
+			<foreach collection="searchList" item="item">
+			${item.whereStr}
+			</foreach>
+			<choose>
+				<when test='order_type.equals("share_desc")'>order by a.share_dt desc</when>
+				<when test='order_type.equals("share_asc")'>order by a.share_dt asc</when>
+				<when test='order_type.equals("champnm_asc")'>order by d.campaign_name asc</when>
+				<when test='order_type.equals("champnm_desc")'>order by d.campaign_name desc</when>
+				<when test='order_type.equals("custnm_asc")'>order by c.cust_nm asc</when>
+				<when test='order_type.equals("custnm_desc")'>order by c.cust_nm desc</when>
+				<when test='order_type.equals("contact_desc")'>order by a.state_dt asc</when>
+				<when test='order_type.equals("contact_asc")'>order by a.state_dt desc</when>
+			</choose>
+		) A
+		, (select @rownum:=0) a2
+		order by rownum
+	</select>
+	
+	<!-- 아웃바운드에서 선택한 DB의 상세 정보를 가져오도록 함 --> 
+	<select id="selectDBDetailInfo" parameterType="map" resultType="map">
+		select 
+			a.dblist_cd
+		    , a.campaign_id
+		    , #{cust_id} as cust_id
+		    <foreach collection="searchList" item="item">
+		    	${item.selectStr}
+		    </foreach>
+		from
+		    TB_DBLIST a
+		where 1=1
+		and a.dblist_cd = #{dblist_cd}
+		and a.campaign_id = #{campaign_id}
+	</select>
+</mapper>

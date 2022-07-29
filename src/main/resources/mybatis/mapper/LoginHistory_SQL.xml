@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+	* Copyright (c) 2017 EcoleTree. All Rights Reserved.
+	* 
+	* Author : aileen	
+	* Created : 2019. 12. 16.
+	* DESC : 로그인 히스토리 정보
+-->
+<mapper namespace="kr.co.ecoletree.service.login.mapper.LoginHistoryMapper">
+	
+	<!-- 로그인 히스토리 저장 	 -->
+	<insert id="insertLoginHistory" parameterType="map">
+		insert into TB_LOGIN_HISTORY (
+			tmr_id
+			, login_ip
+			, login_type
+			, insert_dttm
+		) values (
+			#{tmr_id}
+			, #{login_ip}
+			, #{login_type}
+			, now()
+		)
+	</insert>
+	
+	<!-- 14일간 로그인 기록 검색 -->
+	<select id="selectLastLoginHistory" parameterType="map" resultType="map">
+		<![CDATA[
+			select 
+				count(a.tmr_id) as cnt
+				,if(b.in_dt is null, 1=1, datediff(date_format(now(), "%Y.%c.%d"), date_format(b.in_dt, "%Y.%c.%d"))) as workdays
+			from 
+				TB_LOGIN_HISTORY a,
+				TB_TMR b
+			where 1=1
+			and a.tmr_id = b.tmr_id
+			and a.tmr_id = #{tmr_id}
+			and a.login_type = 'LOGIN'
+			and if(b.in_dt is null, 1=1, date_format(b.in_dt, "%Y.%c.%d") <= date_format(now(), "%Y.%c.%d"))
+			and date_sub(now(), interval 14 day) < a.insert_dttm
+		]]>	
+	</select>
+</mapper>

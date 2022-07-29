@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+	* Copyright (c) 2017 EcoleTree. All Rights Reserved.
+	* 
+	* Author : ysjang	
+	* Created : 2019. 12. 12.
+	* DESC : 공지사항
+-->
+<mapper namespace="kr.co.ecoletree.service.notice.mapper.NoticeMapper">
+	
+	<!--
+		공지사항 리스트 조회
+	 -->
+	<select id="selectNoticeList" parameterType="map" resultType="map">
+		select 
+			@rownum := @rownum + 1 as rownum
+	        , a.notice_cd
+			, a.subject
+			, a.content
+			, a.file_path
+			, a.file_name
+	        , a.read_notice_id
+	        from
+	        (
+				select distinct
+			  		a.notice_cd
+					, a.subject
+					, a.content
+					, a.file_path
+					, a.file_name
+	        		, a.update_dttm
+	        		, nr.notice_cd as read_notice_id
+				from 
+				(
+					select 
+					a.* 
+					from
+	            	TB_NOTICE a
+					left join 
+					(select b.* from TB_NOTICE_TEAM_R b, TB_TEAM_MST team where team.team_cd = b.team_cd and team.is_delete = 'N') b
+	                on a.notice_cd = b.notice_cd
+	                where 1=1
+	                	and a.is_delete = 'N' 
+	                	and (b.team_cd = #{team_cd} or b.team_cd is null)
+	                <if test="search_data != null">
+	            		AND (a.subject like concat('%',#{search_data},'%') or a.content like concat('%',#{search_data},'%') or a.file_name like concat('%',#{search_data},'%'))
+	            	</if>
+	           	) a
+				left join 
+				TB_NOTICE_READ nr
+				on a.notice_cd = nr.notice_cd
+				and nr.tmr_id = #{tmr_id}
+				where 1=1 
+				and date_format(now(),'%Y-%m-%d') between date_format(a.start_dttm,'%Y-%m-%d') and date_format(a.end_dttm,'%Y-%m-%d')
+				and a.is_delete = 'N'
+	        ) a
+	        inner join  (SELECT @rownum:=0) a2
+			order by a.update_dttm desc 
+	</select>
+	
+	<!--
+		공지사항 카운트 조회
+	 -->
+	<select id="selectNoticeCount" parameterType="map" resultType="int">
+		select distinct
+			  	count(*) as cnt
+		from 
+		(
+			select 
+			a.* 
+			from
+           	TB_NOTICE a
+			left join 
+			(select b.* from TB_NOTICE_TEAM_R b, TB_TEAM_MST team where team.team_cd = b.team_cd and team.is_delete = 'N') b
+               on a.notice_cd = b.notice_cd
+               where 1=1 
+               		and a.is_delete = 'N'
+					and (b.team_cd = #{team_cd} or b.team_cd is null)
+               <if test="search_data != null">
+           		AND (a.subject like concat('%',#{search_data},'%') or a.content like concat('%',#{search_data},'%') or a.file_name like concat('%',#{search_data},'%'))
+           	</if>
+          	) a
+		left join 
+		TB_NOTICE_READ nr
+		on a.notice_cd = nr.notice_cd
+		and nr.tmr_id = #{tmr_id}
+		where 1=1 
+		and date_format(now(),'%Y-%m-%d') between date_format(a.start_dttm,'%Y-%m-%d') and date_format(a.end_dttm,'%Y-%m-%d')
+		and a.is_delete = 'N' 
+	</select>
+	
+	<!--
+		공지사항 신규 갯수 조회
+	 -->
+	<select id="selectNewNoticeCount" parameterType="map" resultType="int">
+		select distinct 
+			count(*) as cnt
+		from 
+			(select 
+			a.* 
+			from
+           	TB_NOTICE a
+			left join 
+			(select b.* from TB_NOTICE_TEAM_R b, TB_TEAM_MST team where team.team_cd = b.team_cd and team.is_delete = 'N') b
+               on a.notice_cd = b.notice_cd
+               where 1=1 
+               		and a.is_delete = 'N'
+					and (b.team_cd = #{team_cd} or b.team_cd is null)
+            	) a
+		left join 
+			TB_NOTICE_READ nr
+		on a.notice_cd = nr.notice_cd
+		and nr.tmr_id = #{tmr_id}
+		where 1=1 
+		and date_format(now(),'%Y-%m-%d') between date_format(a.start_dttm,'%Y-%m-%d') and date_format(a.end_dttm,'%Y-%m-%d')
+		and nr.notice_cd is null
+		and a.is_delete = 'N'
+	</select>
+	
+</mapper>

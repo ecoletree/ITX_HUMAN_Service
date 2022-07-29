@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+	* Copyright (c) 2017 EcoleTree. All Rights Reserved.
+	* 
+	* Author : aileen	
+	* Created : 2019. 12. 31.
+	* DESC : 비밀번호 변경 히스토리 정보
+-->
+<mapper namespace="kr.co.ecoletree.service.login.mapper.PWHistoryMapper">
+	
+	<!-- 비번 변경 히스토리 저장 	 -->
+	<insert id="insertPWHistory" parameterType="map">
+		insert into TB_PW_HISTORY (
+			tmr_id
+			, tmr_nm
+			, tmr_pw
+			, insert_ip
+			, insert_dt
+			, insert_tm
+			, insert_dttm
+		) values (
+			#{tmr_id}
+			, #{tmr_nm}
+			, #{tmr_pw}
+			, #{insert_ip}
+			, date_format(now(), "%Y%c%d")
+			, date_format(now(), "%H%i%s")
+			, now()
+		)
+	</insert>
+	
+	<!-- 30일 비번 변경 기록 -->
+	<select id="selectLastPWHistory" parameterType="map" resultType="int">
+		<![CDATA[
+			select 
+				count(*)
+			from 
+				TB_PW_HISTORY
+			where 1=1
+			and	tmr_id = #{tmr_id}
+			and date_sub(now(), interval 30 day) < insert_dttm
+		]]>	
+	</select>
+</mapper>

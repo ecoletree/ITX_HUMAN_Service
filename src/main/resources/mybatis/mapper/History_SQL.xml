@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+	* Copyright (c) 2017 EcoleTree. All Rights Reserved.
+	* 
+	* Author : ysjang	
+	* Created : 2019. 12. 12.
+	* DESC : 히스토리
+-->
+<mapper namespace="kr.co.ecoletree.service.history.mapper.HistoryMapper">
+	
+	<!--
+		히스토리 전체 리스트 조회
+		FCODENAME(''011'',ca.state_cd,''***'',''***'','''')) state_nm,     
+		FCODENAME(''010'',cr.cr_cd1,''***'',''***'','''')) cr_nm,        
+		FCODENAME(''010'',cr.cr_cd1,cr.cr_cd2,''***'','''')) cr_snm,         
+		FCODENAME(''010'',cr.cr_cd1,cr.cr_cd2,cr.cr_cd3,'''')) cr_dnm,
+	 -->
+	<select id="selectHistoryList" parameterType="map" resultType="map">
+		select
+			@rownum := @rownum + 1 as rownum 
+			, ca.cust_id     
+			, ca.call_id
+			, ca.global_id
+			, ca.item_id
+			, ca.call_bdtm
+			, ca.tmr_id                                                                     
+			, ca.tmr_nm
+			, ca.class_1
+			, ca.class_2
+			, ca.class_3
+			, ca.class_4                                                                    
+			, ca.cust_nm
+			, ca.hand_tel
+			, ca.view_cust_nm
+			, ca.view_hand_tel
+			, ca.state_nm     
+			, ca.view_cr_cd1        
+			, ca.view_cr_cd2         
+			, ca.view_cr_cd3
+			, ca.view_cr_cd4
+			, ca.cr_mm                                                                     
+			, ca.cr_mm_add                                                                     
+			, ca.callform_cd
+			, ca.io_flag
+			, ca.state_cd
+			, ca.cr_sno
+			, ca.cr_cd1
+			, ca.cr_cd2
+			, ca.cr_cd3
+			, ca.cr_cd4
+			, ca.view_remark_1
+			, ca.remark_1
+            , ca.team_name
+            , ca.call_bdttm
+            , ca.call_sdttm
+	        , ca.save_tm
+	        , ca.call_tm
+		from (
+			select   
+				cu.cust_id,     
+				ca.call_id,
+				ca.global_id,
+				ca.item_id,
+				date_format(ca.call_bdttm, '%Y.%m.%d') as call_bdtm,
+				ca.tmr_id,                                                                     
+				ca.tmr_nm,
+				cu.class_1,
+				cu.class_2,
+				cu.class_3,
+				cu.class_4,                                                                    
+				concat(cu.cust_nm) as cust_nm,
+				FN_DECRYPT(cu.hand_tel, #{schema_en_key}) as hand_tel,
+				FN_MASKING_COLUMN(cu.cust_nm,1,1) as view_cust_nm,
+				FN_MASKING_COLUMN(FN_DECRYPT(cu.hand_tel, #{schema_en_key}),0,4) as view_hand_tel,
+				FN_FCODENAME('011',ca.state_cd,'***','***','***','') state_nm,     
+				FN_FCODENAME('010',ca.cr_cd1,'***','***','***','') view_cr_cd1,        
+				FN_FCODENAME('010',ca.cr_cd1,ca.cr_cd2,'***','***','') view_cr_cd2,         
+				FN_FCODENAME('010',ca.cr_cd1,ca.cr_cd2,ca.cr_cd3,'***','') view_cr_cd3,
+				FN_FCODENAME('010',ca.cr_cd1,ca.cr_cd2,ca.cr_cd3,ca.cr_cd4,'') view_cr_cd4,
+				ca.cr_mm,
+				ca.cr_mm_add,
+				ca.io_flag,                                                              
+				case ca.io_flag when  'I' then 'I/B' when 'O' then 'O/B' else '-' end callform_cd,
+				concat(ca.state_cd) as state_cd,
+				concat(ca.cr_sno) as cr_sno,
+				concat(ca.cr_cd1) as cr_cd1,
+				concat(ca.cr_cd2) as cr_cd2,
+				concat(ca.cr_cd3) as cr_cd3,
+				concat(ca.cr_cd4) as cr_cd4,
+				FN_FCODENAME('090',ca.remark_1,'***','***','***','') as view_remark_1,
+				concat(ca.remark_1) as remark_1,
+	            tm.team_name,    
+                date_format(ca.call_bdttm, '%Y.%m.%d %H:%i:%s') as call_bdttm
+                ,date_format(ca.call_sdttm, '%Y.%m.%d %H:%i:%s') as call_sdttm
+	            ,concat(sec_to_time(if (ca.save_tm  <![CDATA[ < ]]>  0, 0, ca.save_tm ))) as save_tm
+	            ,concat(sec_to_time(if (ca.call_tm  <![CDATA[ < ]]>  0, 0, ca.call_tm ))) as call_tm
+			from 
+				(select ca.* 
+					, cr.cr_mm
+					, cr.cr_mm_add
+					, cr.cr_cd1
+					, cr.cr_cd2
+					, cr.cr_cd3
+					, cr.cr_cd4
+					, cr.cr_sno
+					, cr.remark_1
+					  from  TB_CALL ca , TB_CALLRESULT cr
+				    <if test="search_hand_tel != null">
+	             	, (select FN_ENCRYPT(#{search_hand_tel},#{schema_en_key}) as enc_tel from dual) tel
+	            	</if>
+                	where 
+                	1=1 
+                	and ca.call_id = cr.call_id
+                	<if test="cust_id != null">AND ca.cust_id = #{cust_id} </if>		
+					<if test='search_tmr_nm != null'>AND ca.tmr_nm like concat('%',#{search_tmr_nm},'%')</if>
+					<if test="cr_mm != null">AND cr.cr_mm like concat('%',#{cr_mm},'%')</if>
+					<if test="search_hand_tel != null">AND ca.tel = tel.enc_tel</if>
+                	<choose>
+						<when test="sdate != null and edate != null">
+							and date_format(ca.call_bdttm, '%Y.%m.%d') between date_format(#{sdate}, '%Y.%m.%d') and date_format(#{edate}, '%Y.%m.%d') 
+						</when>
+						<when test="sdate != null">
+							<![CDATA[
+								and date_format(#{sdate}, '%Y.%m.%d') <= date_format(ca.call_bdttm, '%Y.%m.%d')
+							]]>
+						</when>
+						<when test="edate != null">
+							<![CDATA[
+								and date_format(ca.call_bdttm, '%Y.%m.%d') <= date_format(#{edate}, '%Y.%m.%d')
+							]]>
+						</when>
+					</choose>
+                	order by ca.call_bdttm desc LIMIT ${start}, ${length}
+                ) ca
+	          	, TB_CUST cu
+	            , TB_TMR tmr
+	            , TB_TEAM_MST tm
+	            , (SELECT @rownum:=0) a2
+			where 1=1 
+			and ca.cust_id = cu.cust_id 
+			and tmr.tmr_id = ca.tmr_id
+	        and tm.team_cd = tmr.team_cd
+			<if test="cust_nm != null">AND cu.cust_nm like concat('%',#{cust_nm},'%')</if>
+			<if test="team_cd != null">AND tmr.team_cd = #{team_cd}</if>
+		) ca 
+		order by ca.call_bdttm desc 
+	</select>
+	
+	<!--
+		히스토리 전체 갯수 조회
+	 -->
+	<select id="selectHistoryCount" parameterType="map" resultType="int">
+		select   
+			count(*) as cnt    
+		from 
+			(select ca.* from  TB_CALL ca , TB_CALLRESULT cr
+			    <if test="search_hand_tel != null">
+             	, (select FN_ENCRYPT(#{search_hand_tel},#{schema_en_key}) as enc_tel from dual) tel
+            	</if>
+               	where 
+               	1=1 
+               	and ca.call_id = cr.call_id
+               	<if test="cust_id != null">AND ca.cust_id = #{cust_id} </if>		
+				<if test='search_tmr_nm != null'>AND ca.tmr_nm like concat('%',#{search_tmr_nm},'%')</if>
+				<if test="cr_mm != null">AND cr.cr_mm like concat('%',#{cr_mm},'%')</if>
+				<if test="search_hand_tel != null">AND ca.tel = tel.enc_tel</if>
+               	<choose>
+					<when test="sdate != null and edate != null">
+						and date_format(ca.call_bdttm, '%Y.%m.%d') between date_format(#{sdate}, '%Y.%m.%d') and date_format(#{edate}, '%Y.%m.%d') 
+					</when>
+					<when test="sdate != null">
+						<![CDATA[
+							and date_format(#{sdate}, '%Y.%m.%d') <= date_format(ca.call_bdttm, '%Y.%m.%d')
+						]]>
+					</when>
+					<when test="edate != null">
+						<![CDATA[
+							and date_format(ca.call_bdttm, '%Y.%m.%d') <= date_format(#{edate}, '%Y.%m.%d')
+						]]>
+					</when>
+				</choose>
+               	order by ca.call_bdttm desc
+               ) ca
+          	, TB_CUST cu
+            , TB_TMR tmr
+            , TB_TEAM_MST tm
+		where 1=1 
+		and ca.cust_id = cu.cust_id
+		and tmr.tmr_id = ca.tmr_id
+        and tm.team_cd = tmr.team_cd
+		<if test="cust_nm != null">AND cu.cust_nm like concat('%',#{cust_nm},'%')</if>
+		<if test="team_cd != null">AND tmr.team_cd = #{team_cd}</if>
+	</select>
+	
+	<!--
+		히스토리 미저장된 항목 전체 리스트 조회
+		FCODENAME(''011'',ca.state_cd,''***'',''***'','''')) state_nm,     
+		FCODENAME(''010'',cr.cr_cd1,''***'',''***'','''')) cr_nm,        
+		FCODENAME(''010'',cr.cr_cd1,cr.cr_cd2,''***'','''')) cr_snm,         
+		FCODENAME(''010'',cr.cr_cd1,cr.cr_cd2,cr.cr_cd3,'''')) cr_dnm,
+	 -->
+	<select id="selectNotSaveHistoryList" parameterType="map" resultType="map">
+		select
+			@rownum := @rownum + 1 as rownum 
+			, ca.cust_id     
+			, ca.call_id
+			, ca.global_id
+			, ca.item_id
+			, ca.call_bdtm
+			, ca.tmr_id                                                                     
+			, ca.tmr_nm
+			, ca.class_1
+			, ca.class_2
+			, ca.class_3
+			, ca.class_4                                                                    
+			, ca.cust_nm
+			, ca.hand_tel
+			, ca.view_cust_nm
+			, ca.view_hand_tel
+			, ca.state_nm     
+			, ca.view_cr_cd1        
+			, ca.view_cr_cd2         
+			, ca.view_cr_cd3
+			, ca.view_cr_cd4
+			, ca.cr_mm                                                                     
+			, ca.cr_mm_add                                                                     
+			, ca.callform_cd
+			, ca.state_cd
+			, ca.cr_sno
+			, ca.cr_cd1
+			, ca.cr_cd2
+			, ca.cr_cd3
+			, ca.cr_cd4
+			, ca.view_remark_1
+			, ca.remark_1
+            , ca.team_name
+            , ca.call_bdttm
+            , ca.call_sdttm
+	        , ca.save_tm
+	        , ca.call_tm
+		from (
+			select   
+				cu.cust_id,     
+				ca.call_id,
+				ca.global_id,
+				ca.item_id,
+				date_format(ca.call_bdttm, '%Y.%m.%d') as call_bdtm,
+				ca.tmr_id,                                                                     
+				ca.tmr_nm,
+				cu.class_1,
+				cu.class_2,
+				cu.class_3,
+				cu.class_4,                                                                    
+				concat(cu.cust_nm) as cust_nm,
+				FN_DECRYPT(cu.hand_tel, #{schema_en_key}) as hand_tel,
+				FN_MASKING_COLUMN(cu.cust_nm,1,1) as view_cust_nm,
+				FN_MASKING_COLUMN(FN_DECRYPT(cu.hand_tel, #{schema_en_key}),0,4) as view_hand_tel,
+				FN_FCODENAME('011',ca.state_cd,'***','***','***','') state_nm,     
+				FN_FCODENAME('010',ca.cr_cd1,'***','***','***','') view_cr_cd1,        
+				FN_FCODENAME('010',ca.cr_cd1,ca.cr_cd2,'***','***','') view_cr_cd2,         
+				FN_FCODENAME('010',ca.cr_cd1,ca.cr_cd2,ca.cr_cd3,'***','') view_cr_cd3,
+				FN_FCODENAME('010',ca.cr_cd1,ca.cr_cd2,ca.cr_cd3,ca.cr_cd4,'') view_cr_cd4,
+				ca.cr_mm,                                                                     
+				ca.cr_mm_add,                                                                     
+				case ca.io_flag when  'I' then 'I/B' when 'O' then 'O/B' else '-' end callform_cd,
+				concat(ca.state_cd) as state_cd,
+				concat(ca.cr_sno) as cr_sno,
+				concat(ca.cr_cd1) as cr_cd1,
+				concat(ca.cr_cd2) as cr_cd2,
+				concat(ca.cr_cd3) as cr_cd3,
+				concat(ca.cr_cd4) as cr_cd4,
+				FN_FCODENAME('090',ca.remark_1,'***','***','***','') as view_remark_1,
+				concat(ca.remark_1) as remark_1,
+	            tm.team_name,    
+                date_format(ca.call_bdttm, '%Y.%m.%d %H:%i:%s') as call_bdttm
+                ,date_format(ca.call_sdttm, '%Y.%m.%d %H:%i:%s') as call_sdttm
+	            ,concat(sec_to_time(if (ca.save_tm  <![CDATA[ < ]]>  0, 0, ca.save_tm ))) as save_tm
+	            ,concat(sec_to_time(if (ca.call_tm  <![CDATA[ < ]]>  0, 0, ca.call_tm ))) as call_tm
+			from 
+				(select ca.* 
+					, cr.cr_mm
+					, cr.cr_mm_add
+					, cr.cr_cd1
+					, cr.cr_cd2
+					, cr.cr_cd3
+					, cr.cr_cd4
+					, cr.cr_sno
+					, cr.remark_1
+					  from  TB_CALL ca
+					left join
+						TB_CALLRESULT cr
+					on ca.call_id = cr.call_id
+				    <if test="search_hand_tel != null">
+	             	, (select FN_ENCRYPT(#{search_hand_tel},#{schema_en_key}) as enc_tel from dual) tel
+	            	</if>
+                	where 
+                	1=1 
+                	<if test="cust_id != null">AND ca.cust_id = #{cust_id} </if>		
+					<if test='search_tmr_nm != null'>AND ca.tmr_nm like concat('%',#{search_tmr_nm},'%')</if>
+					<if test="cr_mm != null">AND cr.cr_mm like concat('%',#{cr_mm},'%')</if>
+					<if test="search_hand_tel != null">AND ca.tel = tel.enc_tel</if>
+                	<choose>
+						<when test="sdate != null and edate != null">
+							and date_format(ca.call_bdttm, '%Y.%m.%d') between date_format(#{sdate}, '%Y.%m.%d') and date_format(#{edate}, '%Y.%m.%d') 
+						</when>
+						<when test="sdate != null">
+							<![CDATA[
+								and date_format(#{sdate}, '%Y.%m.%d') <= date_format(ca.call_bdttm, '%Y.%m.%d')
+							]]>
+						</when>
+						<when test="edate != null">
+							<![CDATA[
+								and date_format(ca.call_bdttm, '%Y.%m.%d') <= date_format(#{edate}, '%Y.%m.%d')
+							]]>
+						</when>
+					</choose>
+					and cr.call_id is null
+                	order by ca.call_bdttm desc LIMIT ${start}, ${length}
+                ) ca
+	          	, TB_CUST cu
+	            , TB_TMR tmr
+	            , TB_TEAM_MST tm
+	            , (SELECT @rownum:=0) a2
+			where 1=1 
+			and ca.cust_id = cu.cust_id 
+			and tmr.tmr_id = ca.tmr_id
+	        and tm.team_cd = tmr.team_cd
+			<if test="cust_nm != null">AND cu.cust_nm like concat('%',#{cust_nm},'%')</if>
+			<if test="team_cd != null">AND tmr.team_cd = #{team_cd}</if>
+		) ca 
+		order by ca.call_bdttm desc 
+	</select>
+	
+	<!--
+		히스토리 전체 갯수 조회
+	 -->
+	<select id="selectNotSaveHistoryCount" parameterType="map" resultType="int">
+		select   
+			count(*) as cnt    
+		from 
+			(select ca.* 
+					, cr.cr_mm
+					, cr.cr_mm_add
+					, cr.cr_cd1
+					, cr.cr_cd2
+					, cr.cr_cd3
+					, cr.cr_cd4
+					, cr.cr_sno
+					, cr.remark_1
+					  from  TB_CALL ca
+					left join
+						TB_CALLRESULT cr
+					on ca.call_id = cr.call_id
+				    <if test="search_hand_tel != null">
+	             	, (select FN_ENCRYPT(#{search_hand_tel},#{schema_en_key}) as enc_tel from dual) tel
+	            	</if>
+                	where 
+                	1=1 
+                	<if test="cust_id != null">AND ca.cust_id = #{cust_id} </if>		
+					<if test='search_tmr_nm != null'>AND ca.tmr_nm like concat('%',#{search_tmr_nm},'%')</if>
+					<if test="cr_mm != null">AND cr.cr_mm like concat('%',#{cr_mm},'%')</if>
+					<if test="search_hand_tel != null">AND ca.tel = tel.enc_tel</if>
+                	<choose>
+						<when test="sdate != null and edate != null">
+							and date_format(ca.call_bdttm, '%Y.%m.%d') between date_format(#{sdate}, '%Y.%m.%d') and date_format(#{edate}, '%Y.%m.%d') 
+						</when>
+						<when test="sdate != null">
+							<![CDATA[
+								and date_format(#{sdate}, '%Y.%m.%d') <= date_format(ca.call_bdttm, '%Y.%m.%d')
+							]]>
+						</when>
+						<when test="edate != null">
+							<![CDATA[
+								and date_format(ca.call_bdttm, '%Y.%m.%d') <= date_format(#{edate}, '%Y.%m.%d')
+							]]>
+						</when>
+					</choose>
+					and cr.call_id is null
+                ) ca
+	          	, TB_CUST cu
+	            , TB_TMR tmr
+	            , TB_TEAM_MST tm
+	            , (SELECT @rownum:=0) a2
+			where 1=1 
+			and ca.cust_id = cu.cust_id 
+			and tmr.tmr_id = ca.tmr_id
+	        and tm.team_cd = tmr.team_cd
+			<if test="cust_nm != null">AND cu.cust_nm like concat('%',#{cust_nm},'%')</if>
+			<if test="team_cd != null">AND tmr.team_cd = #{team_cd}</if>
+	</select>
+	
+</mapper>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+	* Copyright (c) 2017 EcoleTree. All Rights Reserved.
+	* 
+	* Author : ysjang	
+	* Created : 2019. 12. 12.
+	* DESC : 로그인
+-->
+<mapper namespace="kr.co.ecoletree.service.login.mapper.LoginMapper">
+
+	<sql id="entry_date_check">
+		<![CDATA[
+		and if(b.in_dt is null, 1=1, date_format(b.in_dt, "%Y.%m.%d") <= date_format(now(), "%Y.%m.%d"))
+		]]>
+	</sql>
+	
+	<sql id="leave_date_check">
+		<![CDATA[
+		and if(b.out_dt is null or b.out_dt = '99999999' or b.out_dt = '99991231', 1=1, date_format(now(), "%Y.%m.%d") between date_format(b.in_dt, "%Y.%m.%d") and date_format(b.out_dt, "%Y.%m.%d"))
+		]]>
+	</sql>
+	
+	<!-- 로그인 확인 -->
+    <select id="selectLoginInfo" parameterType="map" resultType="map">
+         select 
+         	b.tmr_id
+		    , b.tmr_nm
+		    , b.tmr_pw
+		    , b.team_cd
+		    , b.role_id
+		    , b.title_cd
+		    , b.cti_id
+		    , b.device_no
+		    , b.is_su
+		    , b.is_manager
+		    , b.in_dt
+		    , b.out_dt
+		    , concat(b.login_fail_count) as login_fail_count
+		    , b.is_delete
+		    , b.insert_dt
+			, b.insert_tm
+			, b.insert_id
+			, b.update_dt
+			, b.update_tm
+			, b.update_id
+			, b.insert_dttm
+			, b.update_dttm
+			, b.extension
+			, b.domain
+			, b.proxy
+			, b.bp_id
+			, b.bp_pw
+		from 
+			TB_TMR b
+        where 1=1
+        and	b.tmr_id = #{tmr_id}
+        and b.is_delete = 'N'
+        and b.is_su = 'N'
+        and b.is_manager = 'N'
+        <include refid="entry_date_check" />
+		<include refid="leave_date_check" />
+    </select>
+    
+    <!-- 로그인 실패 카운트 수정 -->
+    <update id="updateLoginFailCount" parameterType="map">
+    	update TB_TMR
+    	set
+    		<choose>
+    			<when test="status == 'FAIL'">
+    			login_fail_count = login_fail_count + 1
+    			</when>
+    			<otherwise>
+    			login_fail_count = 0
+    			</otherwise>
+    		</choose>
+    	where
+    		tmr_id = #{tmr_id}
+    </update>
+    
+    <!-- 비밀번호 번경 -->
+    <update id="updateLoginPW" parameterType="map">
+    	update TB_TMR
+    	set
+    		tmr_pw = #{tmr_pw}
+    		, update_dt = date_format(now(), "%Y%m%d")
+    		, update_tm = date_format(now(), "%H%i%s")
+    		, update_id = #{session_tmr_id}
+    		, update_dttm = now()
+    	where
+    		tmr_id = #{tmr_id}
+    </update>
+    
+</mapper>

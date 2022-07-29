@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+	* Copyright (c) 2017 EcoleTree. All Rights Reserved.
+	* 
+	* Author : ysjang	
+	* Created : 2019. 12. 12.
+	* DESC : 로그 히스토리 저장
+-->
+<mapper namespace="kr.co.ecoletree.service.logHistory.mapper.LogHistoryMapper">
+	
+	
+	<!-- 로그인 히스토리 저장 	 -->
+	<insert id="insertLogHistory" parameterType="map">
+		insert into TB_LOG_HISTORY (
+			tmr_id
+			, insert_dttm
+			, connect_ip
+			, menu_cd
+			, log_message
+		) values (
+			#{tmr_id}
+			, now()
+			, #{connect_ip}
+			, #{menu_cd}
+			, #{log_message}
+		)
+	</insert>
+	
+</mapper>

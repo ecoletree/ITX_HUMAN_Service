@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+	* Copyright (c) 2017 EcoleTree. All Rights Reserved.
+	* 
+	* Author : ysjang	
+	* Created : 2019. 12. 12.
+	* DESC : 콜백 처리
+-->
+<mapper namespace="kr.co.ecoletree.service.healthCenter.mapper.HealthCenterMapper">
+	
+	
+	<!--
+		콜백 리스트 조회
+	 -->
+	<select id="selectHealthCenterList" parameterType="map" resultType="map">
+		select 
+			a.tel_code
+			, a.city_desc
+			, a.division_desc
+			, a.position_name
+			, a.cust_name
+			, a.office_tel
+			, a.hand_tel
+			, a.fax_tel
+			, a.exhand_tel
+			, a.email
+			, a.ex_memo
+		from 
+			TB_PHCENTER a
+		where 1=1
+		<if test="city_desc != null">and a.city_desc like concat('%',#{city_desc},'%')</if>
+		order by a.tel_code asc
+	</select>
+	
+	<!--
+		콜백 신규 갯수 조회
+	 -->
+	<select id="selectHealthCenterCount" parameterType="map" resultType="int">
+		select 
+			count(*) as cnt
+		from 
+			TB_PHCENTER a
+		where 1=1
+		<if test="city_desc != null">and a.city_desc like concat('%',#{city_desc},'%')</if>
+	</select>
+	
+	
+</mapper>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+	* Copyright (c) 2017 EcoleTree. All Rights Reserved.
+	* 
+	* Author : ysjang	
+	* Created : 2019. 12. 12.
+	* DESC : 코드
+-->
+<mapper namespace="kr.co.ecoletree.service.code.mapper.CodeMapper">
+	
+	<!--
+		코드 리스트 조회
+	 -->
+	<select id="selectCodeList" parameterType="map" resultType="map">
+		select
+			code
+			, item1
+			, item2
+			, item3
+			, item4
+			, item_nm
+			, value1
+			, value2
+			, value3
+			, delete_gb
+		from 
+			TB_CODE
+		where 1=1
+		and delete_gb = 0 
+		<if test="code_list != null">
+        	and code in 
+        	<foreach collection="code_list" open="(" close=")" index="i" separator="," item="code">
+        		#{code.code}
+        	</foreach>
+        </if>
+        order by code, item1, item2, item3 
+	</select>
+	
+	<!--
+		코드 조회
+	 -->
+	<select id="selectCode" parameterType="kr.co.ecoletree.service.code.vo.CodeVO" resultType="map">
+		select
+			code
+			, item1
+			, item2
+			, item3
+			, item4
+			, item_nm
+			, value1
+			, value2
+			, value3
+			, delete_gb
+		from 
+			TB_CODE
+		where 1=1
+		and delete_gb = 0
+		<if test="code != null">and code = #{code}</if> 
+		<if test="item1 != null">and item1 = #{item1}</if> 
+		<if test="item2 != null">and item2 = #{item2}</if> 
+		<if test="item3 != null">and item3 = #{item3}</if>
+		<if test="item4 != null">and item4 = #{item4}</if>
+		order by code, item1, item2, item3
+	</select>
+	
+	<select id="selectCodeAllList" parameterType="map" resultType="map">
+		select
+			code
+			, item1
+			, item2
+			, item3
+			, item4
+			, item_nm
+			, value1
+			, value2
+			, value3
+			, delete_gb
+		from 
+			TB_CODE
+		where 1=1
+		<if test="code_list != null">
+        	and code in 
+        	<foreach collection="code_list" open="(" close=")" index="i" separator="," item="code">
+        		#{code.code}
+        	</foreach>
+        </if>
+        order by code, item1, item2, item3 
+	</select>
+	
+	<!--
+		코드 조회
+	 -->
+	<select id="selectCodeAll" parameterType="kr.co.ecoletree.service.code.vo.CodeVO" resultType="map">
+		select
+			code
+			, item1
+			, item2
+			, item3
+			, item4
+			, item_nm
+			, value1
+			, value2
+			, value3
+			, delete_gb
+		from 
+			TB_CODE
+		where 1=1
+		<if test="code != null">and code = #{code}</if> 
+		<if test="item1 != null">and item1 = #{item1}</if> 
+		<if test="item2 != null">and item2 = #{item2}</if> 
+		<if test="item3 != null">and item3 = #{item3}</if>
+		<if test="item4 != null">and item4 = #{item4}</if>
+		order by code, item1, item2, item3
+	</select>
+	
+	<!--
+		새코드 리스트 조회
+	 -->
+	<select id="selectNewCodeList" parameterType="map" resultType="map">
+		select
+			code_cd
+			,p_code_cd
+			,item_nm
+		from TB_NEW_CODE WHERE 
+        1=1
+        order by p_code_cd, code_cd
+	</select>
+	
+	
+</mapper>
