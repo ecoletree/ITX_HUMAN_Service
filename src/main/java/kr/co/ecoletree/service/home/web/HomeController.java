@@ -90,9 +90,9 @@ public class HomeController extends ETBaseController{
 			url = "home";
 			
 			ETSessionVO sessionVO = SessionHelper.getSessionVO();
-			if (sessionVO.getBiz_type().equals(ServiceCommonConst.BIZ_TYPE_OUTBOUND)) {
-				url = "home_outbound";
-			}
+//			if (sessionVO.getBiz_type().equals(ServiceCommonConst.BIZ_TYPE_OUTBOUND)) {
+//				url = "home_outbound";
+//			}
 
 			PropertyUtil propertyUtil;
 	        String msg = null;
