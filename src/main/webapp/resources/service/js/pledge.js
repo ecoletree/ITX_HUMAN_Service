@@ -36,7 +36,7 @@
 		
 		// set event
 		$("#pledge_btnAgree").on("click", self.btnAgree_clickEventListener);
-		$("#pledge_btnComplete").on("click", self.btnComplete_clickEventListener);
+//		$("#pledge_btnComplete").on("click", self.btnComplete_clickEventListener);
 		
 		et.setEnterKeyDownEvent("#pledge_enterName1", self.btnComplete_clickEventListener);
 		et.setEnterKeyDownEvent("#pledge_enterName2", self.btnComplete_clickEventListener);
@@ -53,9 +53,10 @@
 	ctrl.btnAgree_clickEventListener = function(e) {
 		var self = et.vc;
 
-		$("#pledge_notice").hide();
-		$("#pledge_content").show();
-		$("#pledge_enterName1").focus();
+//		$("#pledge_notice").hide();
+//		$("#pledge_content").show();
+//		$("#pledge_enterName1").focus();
+		new ETService().callView("/", null);
 	};
 
 	/**
