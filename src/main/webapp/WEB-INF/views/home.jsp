@@ -126,7 +126,7 @@ $(function (){
 		
 		<!-- 콜백 -->
 		<!-- display: block; -->
-		<div id="home_divCallBack" class="bxMainPopWrap" style="display: none;">
+		<div id="home_divCallBack" class="bxMainPopWrap5" style="display: none;">
 			<div class="popupHead">
 				<div><img src="${cp }/resources/ecoletree/img/icon_call.png" /> 콜백</div>
 				<a onclick="$('#home_divCallBack').hide()">x</a>
