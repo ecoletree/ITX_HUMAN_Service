@@ -92,6 +92,7 @@
 			) b
 			on a.call_id = b.call_id
 		set 
+			a.cust_id = #{cust_id},
 			a.state_cd = #{state_cd}, 
 			a.call_etm = date_format(#{call_etm}, '%H%i%s'), 
 			a.call_edttm = str_to_date(#{call_etm}, '%Y-%m-%d %H:%i:%s'), 
@@ -138,7 +139,7 @@
     		, cr_cd1
     		, cr_cd2
     		, cr_cd3
-<!--     		, cr_cd4 -->
+    		, cr_cd4
     		, cr_mm
     		, cr_mm_add
     	) values (
@@ -147,7 +148,7 @@
         	, #{cr_cd1}
         	, #{cr_cd2}
         	, #{cr_cd3}
-<!--         	, #{cr_cd4} -->
+        	, #{cr_cd4}
         	, #{cr_mm}
         	, #{cr_mm_add}
         )
