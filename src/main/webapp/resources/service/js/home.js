@@ -572,11 +572,34 @@
 				}, {
 					className : "txtCenter",
 					data : "tel",
+					render : function(data, type, full, meta) {
+						var str = '<a class="btnBlue btnSmall"><img src="'+getContextPath()+'/resources/ecoletree/img/icon_call.png" data-callnumber="'+full.tel+'" data-calltype="tel" /><span>'+data+'</span></a>';
+						return str;
+					}
 				}, {
-					className : "txtCenter tdCallTime",
+					className : "txtCenter",
+					data : "key_in_number",
+					render : function(data, type, full, meta) {
+						var str = '<a class="btnBlue btnSmall"><img src="'+getContextPath()+'/resources/ecoletree/img/icon_call.png" data-callnumber="'+full.key_in_number+'" data-calltype="keyIn" /><span>'+data+'</span></a>';
+						return str;
+					}
+				},  {
+					className : "txtCenter",
+					data : "service_name",
+					render : function(data, type, full, meta) {
+						var str = null;
+						if(data === null) {
+							str = "";
+						} else {
+							str = '<span>'+data+'</span>';
+						}
+						return str;
+					}
+				}, {
+					className : "txtCenter",
 					data : "view_cb_time",
 					render : function(data, type, full, meta) {
-						var str = '<span>'+data+'</span> <a class="btnBlue btnSmall"><img src="'+getContextPath()+'/resources/ecoletree/img/icon_call.png" data-callnumber='+full.tel+' /></a>';
+						var str = '<span>'+data+'</span>';
 						return str;
 					}
 				}
@@ -756,20 +779,22 @@
 	 */
 	ctrl.cbTBListRowSelect = function($target, row, col) {
 		var self = et.home;
-		if ($target.is("img")) {
+		
+		if (col === 1 || col === 2) {
 			self.VIEW_STATUS = "callback";
-			self.custInfo = null;
 			var rowData = et.getRowData("#"+self.name+"_cb_tbList", $target.closest("tr"));
+			if ($target.closest("td").find("img").data("calltype") === "keyIn") {
+				rowData.tel = rowData.key_in_number;
+			}
 			rowData.viewStatus = self.VIEW_STATUS;
 			self.reserveCallbackData = rowData;
 			if (et.history != null && et.history != undefined) {
 				et.history.sendData(rowData);
-			}
+			}			
 			if (et.callInfo != null && et.callInfo != undefined) {
 				et.callInfo.sendData(rowData);
 			}
 			$("#"+self.name+"_divCallBack").hide();
-			
 		}
 	};
 	

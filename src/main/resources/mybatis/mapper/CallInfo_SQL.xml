@@ -58,11 +58,22 @@
     <update id="updateCustInfo" parameterType="map">
     	update TB_CUST 
    		set  
-           cust_nm = #{cust_nm}
-           , class_1   = #{class_1}
-           , class_2   = #{class_2}
-           , class_3   = #{class_3}
-           , class_4  = #{class_4}
+			cust_nm = #{cust_nm}
+           	<if test="hand_tel != null and !hand_tel.equals('')">
+           	, hand_tel = FN_ENCRYPT(FN_DELTAB(#{hand_tel}), #{schema_en_key})
+           	</if>
+           	<if test="home_tel != null and !home_tel.equals('')">
+           	, home_tel = FN_ENCRYPT(FN_DELTAB(#{home_tel}), #{schema_en_key})
+           	</if>
+           	<if test="office_tel != null and !office_tel.equals('')">
+           	, office_tel = FN_ENCRYPT(FN_DELTAB(#{office_tel}), #{schema_en_key})
+           	</if>
+           	<if test="etc_tel != null and !etc_tel.equals('')">
+           	, etc_tel = FN_ENCRYPT(FN_DELTAB(#{etc_tel}), #{schema_en_key})
+           	</if>
+           	<if test="grade != null and grade.equals('')">
+           	, grade = #{grade}
+           	</if>
 		where 
 			cust_id = #{cust_id}
     </update>
@@ -81,6 +92,7 @@
 			) b
 			on a.call_id = b.call_id
 		set 
+			a.cust_id = #{cust_id},
 			a.state_cd = #{state_cd}, 
 			a.call_etm = date_format(#{call_etm}, '%H%i%s'), 
 			a.call_edttm = str_to_date(#{call_etm}, '%Y-%m-%d %H:%i:%s'), 
@@ -127,7 +139,7 @@
     		, cr_cd1
     		, cr_cd2
     		, cr_cd3
-<!--     		, cr_cd4 -->
+    		, cr_cd4
     		, cr_mm
     		, cr_mm_add
     	) values (
@@ -136,7 +148,7 @@
         	, #{cr_cd1}
         	, #{cr_cd2}
         	, #{cr_cd3}
-<!--         	, #{cr_cd4} -->
+        	, #{cr_cd4}
         	, #{cr_mm}
         	, #{cr_mm_add}
         )
@@ -156,4 +168,6 @@
 		where 1=1
 		and cust_id = #{cust_id};
     </update>
+    
+    
 </mapper>

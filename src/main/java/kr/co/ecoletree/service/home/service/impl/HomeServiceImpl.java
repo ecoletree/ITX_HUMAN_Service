@@ -23,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import kr.co.ecoletree.common.base.service.ETBaseService;
-import kr.co.ecoletree.common.helper.SessionHelper;
 import kr.co.ecoletree.common.util.PropertyUtil;
 import kr.co.ecoletree.common.util.StringUtil;
 import kr.co.ecoletree.common.util.TreeUtil;
@@ -67,26 +66,26 @@ public class HomeServiceImpl extends ETBaseService implements HomeService {
 		try {
 			
 			int noticeCount = noticeMapper.selectNewNoticeCount(params);
-//			int callbackCount = callBackMapper.selectNewCallBackCount(params);
+			int callbackCount = callBackMapper.selectNewCallBackCount(params);
 			int ucaseCount = 0;
 			int blackListCount = 0;
 			
 			resultMap.put("noticeCount", noticeCount);
-//			resultMap.put("callbackCount", callbackCount);
-			resultMap.put("callbackCount", 0);
+			resultMap.put("callbackCount", callbackCount);
+//			resultMap.put("callbackCount", 0);
 			
-//			PropertyUtil propertyUtil;
-//	        String msg = null;
-//			try {
-//				propertyUtil = PropertyUtil.getInstance();
-//				msg = propertyUtil.getProperties("manager.tmr.id");
+			PropertyUtil propertyUtil;
+	        String msg = null;
+			try {
+				propertyUtil = PropertyUtil.getInstance();
+				msg = propertyUtil.getProperties("manager.tmr.id");
 //				if (-1 < msg.indexOf(SessionHelper.getTmrId())) {
 //					ucaseCount = ucaseMapper.selectNewUCaseCount(params);
-					//blackListCount = blackListMapper.selectBlackListCount(params);
+//					blackListCount = blackListMapper.selectBlackListCount(params);
 //				}
-//			} catch (IOException e) {
-//				logError(e.getMessage(),e);
-//			}
+			} catch (IOException e) {
+				logError(e.getMessage(),e);
+			}
 			
 			resultMap.put("ucaseCount", ucaseCount);
 			resultMap.put("blackListCount", blackListCount);
@@ -103,7 +102,7 @@ public class HomeServiceImpl extends ETBaseService implements HomeService {
 	@Transactional
 	public Map<String, Object> setCustCallInfo(Map<String, Object> params) {
 		try {
-			// 걸려온 전화 번호로 고객번호 채번
+//			 걸려온 전화 번호로 고객번호 채번
 			Map<String, Object> custIdMap = mapper.selectCustId(params);
 			
 			if (custIdMap == null || custIdMap.get("cust_id") == null) { // 이전에 등록 한 고객번호가 없을 경우
@@ -113,6 +112,7 @@ public class HomeServiceImpl extends ETBaseService implements HomeService {
 				params.put("cust_id", custIdMap.get("cust_id"));
 				setHaveCustID(params);
 			}
+
 		} catch (Exception e) {
 			logError(e);
 			throw e;

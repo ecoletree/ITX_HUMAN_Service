@@ -56,4 +56,23 @@ public class ServiceCommonConst {
 	 */
 	public static final String BIZ_TYPE_INBOUND = "I";
 	public static final String BIZ_TYPE_OUTBOUND = "O";
+	
+	/**
+	 * VIEW_STATE 타입
+	 */
+	public static final String VIEW_STATE_CALLBACK = "callback";
+	public static final String VIEW_STATE_CAMPAIGN = "campaign";
+	public static final String VIEW_STATE_CALL = "call";
+	public static final String VIEW_STATE_RESERVATE = "reservate";
+	
+	/**
+	 * 아웃콜 유형
+	 * @author boadl
+	 *
+	 */
+	public final class OUT_CALL_GB_CODE {
+		public static final String OUT_BOUND = "001";
+		public static final String CALL_BACK = "002";
+		public static final String CALL = "009";
+	}
 }
