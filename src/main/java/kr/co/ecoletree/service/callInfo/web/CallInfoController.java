@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import kr.co.ecoletree.common.ETCommonConst;
 import kr.co.ecoletree.common.auth.Auth;
 import kr.co.ecoletree.common.base.web.ETBaseController;
 import kr.co.ecoletree.common.helper.SessionHelper;
@@ -59,7 +60,8 @@ public class CallInfoController extends ETBaseController {
 	public @ResponseBody Map<String, Object> saveCustInfo(@RequestBody Map<String, Object> param, HttpServletRequest request) throws Exception {
 		param.put("session_tmr_id", SessionHelper.getTmrId());
 		param.put("schema_en_key", schema_en_key);
-		return service.saveCustInfo(param, request);
+		Map<String, Object> map = service.saveCustInfo(param, request);
+		return ResultUtil.getResultMap(true, param, 0 < (int)map.get("count") ? ETCommonConst.SUCCESS:ETCommonConst.FAILED);
 	}
 
 	/**

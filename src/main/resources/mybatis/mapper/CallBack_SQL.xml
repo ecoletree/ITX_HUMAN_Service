@@ -24,7 +24,7 @@
 			, null as cust_id
 			, a.service_name 
 <!-- 			, (select cust_id from TB_CUST where hand_tel = a.tel limit 0,1) as cust_id -->
-			, date_format(concat(a.cb_date,a.cb_time),'%H:%i:%s') as view_cb_time 
+			, date_format(concat(a.cb_date,a.cb_time),'%Y.%m.%d %H:%i:%s') as view_cb_time 
 		from 
 			TB_CALLBACK a
 			inner join  (SELECT @rownum:=0) a2

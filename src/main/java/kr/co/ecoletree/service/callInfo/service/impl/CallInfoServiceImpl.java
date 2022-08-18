@@ -54,7 +54,9 @@ public class CallInfoServiceImpl extends ETBaseService implements CallInfoSerivc
 	public Map<String, Object> saveCustInfo(Map<String, Object> param, HttpServletRequest request) {
 		try {
 			int count = mapper.updateCustInfo(param);
-			return ResultUtil.getResultMap(true, param, 0<count?ETCommonConst.SUCCESS:ETCommonConst.FAILED);
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("count", count);
+			return map;
 		} catch (Exception e) {
 			logError(e);
 			throw e;

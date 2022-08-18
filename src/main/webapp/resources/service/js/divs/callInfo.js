@@ -101,7 +101,18 @@
 	ctrl.sendData = function(data) {
 		var self = et.callInfo;
 		self.callData = _.cloneDeep(data);
-
+		
+		if (!!self.callData) {
+			if (!self.callData.tel && !!self.callData.hand_tel) { // 콜백, 인바운드 전화번호가 넘어올 때 다른 필드 사용
+				self.callData.tel = self.callData.hand_tel;
+			}
+			if (!!self.callData.tel) {
+				$("#"+self.name+"_iptHand_tel").val(self.callData.tel);
+				self.clearDivUserInfo();
+				
+			}
+		}
+		
 		if (!!self.callData) {
 			new ETService().setSuccessFunction(self.getCustInfoCallSucceed).callService(self.path + "/getCustInfo", self.callData);
 		}
@@ -438,9 +449,10 @@
 		if ($("#"+self.name+"_btnSaveCustInfo").is("[disabled=disabled]")) {
 			return;
 		}
-		
+		debugger;
 		if (!!self.callData) {
 			self.makeSaveParam("cust");
+			debugger;
 			new ETService().setSuccessFunction(self.saveCallSucceed).callService(self.path + "/saveCustInfo", self.callData);
 		}
 	},500);
@@ -476,7 +488,6 @@
 		if ($("#"+self.name+"_btnSaveCallInfo").is("[disabled=disabled]")) {
 			return;
 		}
-		
 		if (!!self.callData) {
 			self.makeSaveParam(et.getCheckboxYN("#"+self.name+"_cbCustInfoSave")==="Y"?"both":"call");
 			new ETService().setSuccessFunction(self.saveCallSucceed).callService(self.path + "/saveCallInfo", self.callData);
@@ -536,5 +547,21 @@
 		$("#divRegiste").hide();
 	}
 	
+	
+	/**
+	 * 고객 정보 조회 팝업 클리어
+	 */
+	ctrl.clearDivUserInfo = function() {
+		$("#home_user_iptName").val("");
+		$("#home_user_iptPhoneNum").val("");
+		$("#home_iptCust_nm").val("미등록 고객");
+		$("#home_iptHand_tel").val("");
+		$("#home_iptHome_tel").val("");
+		$("#home_iptOffice_tel").val("");
+		$("#home_iptEtc_tel").val("");
+		$("#home_selGrade").find("option:eq(0)").prop("selected", true);
+		
+		$("#home_user_tbList").DataTable().clear().destroy();
+	};
 	return ctrl;
 }));

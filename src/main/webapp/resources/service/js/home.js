@@ -779,20 +779,22 @@
 	 */
 	ctrl.cbTBListRowSelect = function($target, row, col) {
 		var self = et.home;
-		if ($target.is("img")) {
+		
+		if (col === 1 || col === 2) {
 			self.VIEW_STATUS = "callback";
-			self.custInfo = null;
 			var rowData = et.getRowData("#"+self.name+"_cb_tbList", $target.closest("tr"));
+			if ($target.closest("td").find("img").data("calltype") === "keyIn") {
+				rowData.tel = rowData.key_in_number;
+			}
 			rowData.viewStatus = self.VIEW_STATUS;
 			self.reserveCallbackData = rowData;
 			if (et.history != null && et.history != undefined) {
 				et.history.sendData(rowData);
-			}
+			}			
 			if (et.callInfo != null && et.callInfo != undefined) {
 				et.callInfo.sendData(rowData);
 			}
 			$("#"+self.name+"_divCallBack").hide();
-			
 		}
 	};
 	
