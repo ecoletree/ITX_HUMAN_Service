@@ -103,39 +103,39 @@ public class HomeServiceImpl extends ETBaseService implements HomeService {
 	public Map<String, Object> setCustCallInfo(Map<String, Object> params) {
 		try {
 			// 걸려온 전화 번호로 고객번호 채번
-//			Map<String, Object> custIdMap = mapper.selectCustId(params);
-//			
-//			if (custIdMap == null || custIdMap.get("cust_id") == null) { // 이전에 등록 한 고객번호가 없을 경우
-//				params.put("cust_id", null);
-//				setNoneCustID(params);
-//			} else { // 이전에 등록 한 고객번호가 있을 경우
-//				params.put("cust_id", custIdMap.get("cust_id"));
-//				setHaveCustID(params);
-//			}
-			// 이번에 고객정보 조회가 생기면서 바뀜
-			if (params.get("hand_tel") != null) {
-				String callId = StringUtil.getUUID(ServiceCommonConst.CODE_PRIFIX_CALL);
-				params.put("call_id", callId);
-				if (params.get("io_flag").equals(ServiceCommonConst.BIZ_TYPE_INBOUND)) {
-					params.put("out_call_gb_cd", null);
-				} else {
-					if (params.get("out_call_gb_cd") == null) {
-						params.put("out_call_gb_cd", null);
-					} else if (params.get("out_call_gb_cd").equals(ServiceCommonConst.VIEW_STATE_CALLBACK)) {
-						params.put("out_call_gb_cd", ServiceCommonConst.OUT_CALL_GB_CODE.CALL_BACK);
-						Map<String, Object> callData =  (Map<String, Object>)params.get("reserveCallbackData");
-						callData.put("call_id", callId);
-						callBackMapper.updateCallBackCallId(callData);
-					} else if (params.get("out_call_gb_cd").equals(ServiceCommonConst.VIEW_STATE_CAMPAIGN)) {
-						params.put("out_call_gb_cd", ServiceCommonConst.OUT_CALL_GB_CODE.OUT_BOUND);
-					} else if (params.get("out_call_gb_cd").equals(ServiceCommonConst.VIEW_STATE_CALL)) {
-						params.put("out_call_gb_cd", ServiceCommonConst.OUT_CALL_GB_CODE.CALL);
-					} else if (params.get("out_call_gb_cd").equals(ServiceCommonConst.VIEW_STATE_RESERVATE)) {
-						params.put("out_call_gb_cd", null);
-					}
-				}
-				int i = mapper.insertCallInfo(params);
+			Map<String, Object> custIdMap = mapper.selectCustId(params);
+			
+			if (custIdMap == null || custIdMap.get("cust_id") == null) { // 이전에 등록 한 고객번호가 없을 경우
+				params.put("cust_id", null);
+				setNoneCustID(params);
+			} else { // 이전에 등록 한 고객번호가 있을 경우
+				params.put("cust_id", custIdMap.get("cust_id"));
+				setHaveCustID(params);
 			}
+			// 이번에 고객정보 조회가 생기면서 바뀜
+//			if (params.get("hand_tel") != null) {
+//				String callId = StringUtil.getUUID(ServiceCommonConst.CODE_PRIFIX_CALL);
+//				params.put("call_id", callId);
+//				if (params.get("io_flag").equals(ServiceCommonConst.BIZ_TYPE_INBOUND)) {
+//					params.put("out_call_gb_cd", null);
+//				} else {
+//					if (params.get("out_call_gb_cd") == null) {
+//						params.put("out_call_gb_cd", null);
+//					} else if (params.get("out_call_gb_cd").equals(ServiceCommonConst.VIEW_STATE_CALLBACK)) {
+//						params.put("out_call_gb_cd", ServiceCommonConst.OUT_CALL_GB_CODE.CALL_BACK);
+//						Map<String, Object> callData =  (Map<String, Object>)params.get("reserveCallbackData");
+//						callData.put("call_id", callId);
+//						callBackMapper.updateCallBackCallId(callData);
+//					} else if (params.get("out_call_gb_cd").equals(ServiceCommonConst.VIEW_STATE_CAMPAIGN)) {
+//						params.put("out_call_gb_cd", ServiceCommonConst.OUT_CALL_GB_CODE.OUT_BOUND);
+//					} else if (params.get("out_call_gb_cd").equals(ServiceCommonConst.VIEW_STATE_CALL)) {
+//						params.put("out_call_gb_cd", ServiceCommonConst.OUT_CALL_GB_CODE.CALL);
+//					} else if (params.get("out_call_gb_cd").equals(ServiceCommonConst.VIEW_STATE_RESERVATE)) {
+//						params.put("out_call_gb_cd", null);
+//					}
+//				}
+//				int i = mapper.insertCallInfo(params);
+//			}
 		} catch (Exception e) {
 			logError(e);
 			throw e;
