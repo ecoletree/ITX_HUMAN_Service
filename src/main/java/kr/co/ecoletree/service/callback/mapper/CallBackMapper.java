@@ -20,4 +20,8 @@ public interface CallBackMapper {
 	public int selectNewCallBackCount(Map<String, Object> params);
 	
 	public int updateOutboundCallBack(Map<String, Object> params);
+	
+	public int updateOutboundCallBackCallId(Map<String, Object> params);
+	
+	public int updateCallBackCallId(Map<String, Object> params);
 }

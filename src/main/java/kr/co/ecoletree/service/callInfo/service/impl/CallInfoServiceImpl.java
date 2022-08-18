@@ -24,7 +24,6 @@ import kr.co.ecoletree.service.callInfo.mapper.BlackListMapper;
 import kr.co.ecoletree.service.callInfo.mapper.CallInfoMapper;
 import kr.co.ecoletree.service.callInfo.service.CallInfoSerivce;
 import kr.co.ecoletree.service.callback.mapper.CallBackMapper;
-import kr.co.ecoletree.service.common.ServiceCommonConst;
 
 @Service
 public class CallInfoServiceImpl extends ETBaseService implements CallInfoSerivce {

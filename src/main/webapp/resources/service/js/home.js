@@ -572,11 +572,34 @@
 				}, {
 					className : "txtCenter",
 					data : "tel",
+					render : function(data, type, full, meta) {
+						var str = '<a class="btnBlue btnSmall"><img src="'+getContextPath()+'/resources/ecoletree/img/icon_call.png" data-callnumber="'+full.tel+'" data-calltype="tel" /><span>'+data+'</span></a>';
+						return str;
+					}
 				}, {
-					className : "txtCenter tdCallTime",
+					className : "txtCenter",
+					data : "key_in_number",
+					render : function(data, type, full, meta) {
+						var str = '<a class="btnBlue btnSmall"><img src="'+getContextPath()+'/resources/ecoletree/img/icon_call.png" data-callnumber="'+full.key_in_number+'" data-calltype="keyIn" /><span>'+data+'</span></a>';
+						return str;
+					}
+				},  {
+					className : "txtCenter",
+					data : "service_name",
+					render : function(data, type, full, meta) {
+						var str = null;
+						if(data === null) {
+							str = "";
+						} else {
+							str = '<span>'+data+'</span>';
+						}
+						return str;
+					}
+				}, {
+					className : "txtCenter",
 					data : "view_cb_time",
 					render : function(data, type, full, meta) {
-						var str = '<span>'+data+'</span> <a class="btnBlue btnSmall"><img src="'+getContextPath()+'/resources/ecoletree/img/icon_call.png" data-callnumber='+full.tel+' /></a>';
+						var str = '<span>'+data+'</span>';
 						return str;
 					}
 				}

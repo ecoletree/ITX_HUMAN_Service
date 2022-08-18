@@ -23,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import kr.co.ecoletree.common.base.service.ETBaseService;
-import kr.co.ecoletree.common.helper.SessionHelper;
 import kr.co.ecoletree.common.util.PropertyUtil;
 import kr.co.ecoletree.common.util.StringUtil;
 import kr.co.ecoletree.common.util.TreeUtil;
@@ -67,26 +66,26 @@ public class HomeServiceImpl extends ETBaseService implements HomeService {
 		try {
 			
 			int noticeCount = noticeMapper.selectNewNoticeCount(params);
-//			int callbackCount = callBackMapper.selectNewCallBackCount(params);
+			int callbackCount = callBackMapper.selectNewCallBackCount(params);
 			int ucaseCount = 0;
 			int blackListCount = 0;
 			
 			resultMap.put("noticeCount", noticeCount);
-//			resultMap.put("callbackCount", callbackCount);
-			resultMap.put("callbackCount", 0);
+			resultMap.put("callbackCount", callbackCount);
+//			resultMap.put("callbackCount", 0);
 			
-//			PropertyUtil propertyUtil;
-//	        String msg = null;
-//			try {
-//				propertyUtil = PropertyUtil.getInstance();
-//				msg = propertyUtil.getProperties("manager.tmr.id");
+			PropertyUtil propertyUtil;
+	        String msg = null;
+			try {
+				propertyUtil = PropertyUtil.getInstance();
+				msg = propertyUtil.getProperties("manager.tmr.id");
 //				if (-1 < msg.indexOf(SessionHelper.getTmrId())) {
 //					ucaseCount = ucaseMapper.selectNewUCaseCount(params);
-					//blackListCount = blackListMapper.selectBlackListCount(params);
+//					blackListCount = blackListMapper.selectBlackListCount(params);
 //				}
-//			} catch (IOException e) {
-//				logError(e.getMessage(),e);
-//			}
+			} catch (IOException e) {
+				logError(e.getMessage(),e);
+			}
 			
 			resultMap.put("ucaseCount", ucaseCount);
 			resultMap.put("blackListCount", blackListCount);
@@ -104,14 +103,38 @@ public class HomeServiceImpl extends ETBaseService implements HomeService {
 	public Map<String, Object> setCustCallInfo(Map<String, Object> params) {
 		try {
 			// 걸려온 전화 번호로 고객번호 채번
-			Map<String, Object> custIdMap = mapper.selectCustId(params);
-			
-			if (custIdMap == null || custIdMap.get("cust_id") == null) { // 이전에 등록 한 고객번호가 없을 경우
-				params.put("cust_id", null);
-				setNoneCustID(params);
-			} else { // 이전에 등록 한 고객번호가 있을 경우
-				params.put("cust_id", custIdMap.get("cust_id"));
-				setHaveCustID(params);
+//			Map<String, Object> custIdMap = mapper.selectCustId(params);
+//			
+//			if (custIdMap == null || custIdMap.get("cust_id") == null) { // 이전에 등록 한 고객번호가 없을 경우
+//				params.put("cust_id", null);
+//				setNoneCustID(params);
+//			} else { // 이전에 등록 한 고객번호가 있을 경우
+//				params.put("cust_id", custIdMap.get("cust_id"));
+//				setHaveCustID(params);
+//			}
+			// 이번에 고객정보 조회가 생기면서 바뀜
+			if (params.get("hand_tel") != null) {
+				String callId = StringUtil.getUUID(ServiceCommonConst.CODE_PRIFIX_CALL);
+				params.put("call_id", callId);
+				if (params.get("io_flag").equals(ServiceCommonConst.BIZ_TYPE_INBOUND)) {
+					params.put("out_call_gb_cd", null);
+				} else {
+					if (params.get("out_call_gb_cd") == null) {
+						params.put("out_call_gb_cd", null);
+					} else if (params.get("out_call_gb_cd").equals(ServiceCommonConst.VIEW_STATE_CALLBACK)) {
+						params.put("out_call_gb_cd", ServiceCommonConst.OUT_CALL_GB_CODE.CALL_BACK);
+						Map<String, Object> callData =  (Map<String, Object>)params.get("reserveCallbackData");
+						callData.put("call_id", callId);
+						callBackMapper.updateCallBackCallId(callData);
+					} else if (params.get("out_call_gb_cd").equals(ServiceCommonConst.VIEW_STATE_CAMPAIGN)) {
+						params.put("out_call_gb_cd", ServiceCommonConst.OUT_CALL_GB_CODE.OUT_BOUND);
+					} else if (params.get("out_call_gb_cd").equals(ServiceCommonConst.VIEW_STATE_CALL)) {
+						params.put("out_call_gb_cd", ServiceCommonConst.OUT_CALL_GB_CODE.CALL);
+					} else if (params.get("out_call_gb_cd").equals(ServiceCommonConst.VIEW_STATE_RESERVATE)) {
+						params.put("out_call_gb_cd", null);
+					}
+				}
+				int i = mapper.insertCallInfo(params);
 			}
 		} catch (Exception e) {
 			logError(e);

@@ -58,9 +58,38 @@
     		, update_dt = date_format(now(), '%Y%m%d')
     		, update_tm = date_format(now(), '%H%i%s')
     		, update_id = #{session_tmr_id}
+    		, cb_gb_cd = '001'
     	where
     		cb_date = #{cb_date}
     		and cb_time = #{cb_time}
+    		and tel = #{db_tel}
+    </update>
+    
+    <!-- 예약 콜 한 후에 해당 정보를 저장 -->
+    <update id="updateOutboundCallBackCallId" parameterType="map">
+    	update TB_CALLBACK
+    	set
+    		exec_call_id = #{call_id}
+    		, exec_dt = date_format(now(), '%Y%m%d')
+    		, exec_tm = date_format(now(), '%H%i%s')
+    		, exec_state = #{state_cd}
+    		, update_dt = date_format(now(), '%Y%m%d')
+    		, update_tm = date_format(now(), '%H%i%s')
+    		, update_id = #{session_tmr_id}
+    		, cb_gb_cd = '001'
+    	where
+    		call_id = #{call_id}
+    </update>
+    
+	<!-- 콜백으로 전화를 했을때 call_id 저장 -->
+    <update id="updateCallBackCallId" parameterType="map">
+    	update TB_CALLBACK
+    	set
+    		call_id = #{call_id}
+    	where
+    		cb_date = #{cb_date}
+    		and cb_time = #{cb_time}
+    		and tel = #{db_tel}
     </update>
 	
 </mapper>
