@@ -168,4 +168,6 @@
 		where 1=1
 		and cust_id = #{cust_id};
     </update>
+    
+    
 </mapper>

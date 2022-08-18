@@ -24,6 +24,7 @@ import kr.co.ecoletree.service.callInfo.mapper.BlackListMapper;
 import kr.co.ecoletree.service.callInfo.mapper.CallInfoMapper;
 import kr.co.ecoletree.service.callInfo.service.CallInfoSerivce;
 import kr.co.ecoletree.service.callback.mapper.CallBackMapper;
+import kr.co.ecoletree.service.common.ServiceCommonConst;
 
 @Service
 public class CallInfoServiceImpl extends ETBaseService implements CallInfoSerivce {
@@ -93,7 +94,7 @@ public class CallInfoServiceImpl extends ETBaseService implements CallInfoSerivc
 //			}
 
 			// 예약콜 또는 콜백 후에 해당 정보를 저장
-			if (param.get("viewStatus").equals("callback")) {
+			if (param.get("viewStatus").equals(ServiceCommonConst.VIEW_STATE_CALLBACK)) {
 //				if(param.get("reserveCallbackData") != null) {
 					Map<String, Object> tempMap = (HashMap<String, Object>)param.get("reserveCallbackData");
 					tempMap.put("exec_call_id", param.get("call_id"));
@@ -101,7 +102,13 @@ public class CallInfoServiceImpl extends ETBaseService implements CallInfoSerivc
 					tempMap.put("session_tmr_id", param.get("session_tmr_id"));
 					cbMapper.updateOutboundCallBack(tempMap);
 //				}
-			} 
+			} else if (param.get("viewStatus").equals(ServiceCommonConst.VIEW_STATE_CAMPAIGN)) {
+				mapper.updateStateInfo(param);
+			} else if (param.get("viewStatus").equals("saveInfo")) {
+//				if (param.get("out_call_gb_cd").equals(ServiceCommonConst.VIEW_STATE_CALLBACK)) {
+//					cbMapper.updateOutboundCallBackCallId(param);
+//				}
+			}
 			
 			String returnMsg = ETCommonConst.SUCCESS;
 			if (saveType.equals("both")) {
