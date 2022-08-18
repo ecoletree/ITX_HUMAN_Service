@@ -48,7 +48,7 @@ $(function (){
 <%-- 					<c:if test="${initData.manager_id ne '' && initData.manager_id ne null}"> --%>
 <%-- 						<a id="home_imgEmergency"><img src="${cp }/resources/ecoletree/img/btn_emergency.png" /><span id="home_spUCaseCnt">0</span></a> --%>
 <%-- 					</c:if> --%>
-<%-- 					<a id="home_imgCallBack"><img src="${cp }/resources/ecoletree/img/btn_call.png" /><span id="home_spCallBackCnt"></span></a> --%>
+					<a id="home_imgCallBack"><img src="${cp }/resources/ecoletree/img/btn_call.png" /><span id="home_spCallBackCnt"></span></a>
 					<a id="home_imgNotice"><img src="${cp }/resources/ecoletree/img/btn_noti.png" /><span id="home_spNoticeCnt"></span></a>
 					<button id="home_btnLogout"><img src="${cp }/resources/ecoletree/img/btn_logout.png" /><span>로그아웃</span></button>
 				</div>
@@ -126,7 +126,7 @@ $(function (){
 		
 		<!-- 콜백 -->
 		<!-- display: block; -->
-		<div id="home_divCallBack" class="bxMainPopWrap" style="display: none;">
+		<div id="home_divCallBack" class="bxMainPopWrap5" style="display: none;">
 			<div class="popupHead">
 				<div><img src="${cp }/resources/ecoletree/img/icon_call.png" /> 콜백</div>
 				<a onclick="$('#home_divCallBack').hide()">x</a>
@@ -141,9 +141,11 @@ $(function (){
 						<table id="home_cb_tbList" class="ecloeScrollTable ecloeTableSmall table table-hover ui-datatable dataTable dataTable-helper" style="width: 100%">
 							<thead>
 								<tr>
-									<th style="width:40px; min-width:45px;"><div>순번</div></th>
-									<th style="width:143px; min-width: 100px;"><div>연락처</div> </th>
-									<th style="width:100px; min-width:100px;"><div>등록시간</div></th>
+									<th style="width:40px; min-width:40px;"><div>순번</div></th>
+									<th style="width:115px; min-width: 115px;"><div>인입번호</div> </th>
+									<th style="width:115px; min-width: 115px;"><div>입력번호</div> </th>
+									<th style="width:140px; min-width: 140px;"><div>지능망번호</div> </th>
+									<th style="width:130px; min-width: 130px;"><div>등록일시</div></th>
 								</tr>
 							</thead>
 							<tbody>
