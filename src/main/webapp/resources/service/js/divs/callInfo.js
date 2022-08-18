@@ -449,10 +449,8 @@
 		if ($("#"+self.name+"_btnSaveCustInfo").is("[disabled=disabled]")) {
 			return;
 		}
-		debugger;
 		if (!!self.callData) {
 			self.makeSaveParam("cust");
-			debugger;
 			new ETService().setSuccessFunction(self.saveCallSucceed).callService(self.path + "/saveCustInfo", self.callData);
 		}
 	},500);
