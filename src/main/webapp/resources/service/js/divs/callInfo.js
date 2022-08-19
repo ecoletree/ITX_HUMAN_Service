@@ -46,6 +46,7 @@
 		
 		$("#"+self.name+"_btnBlackList").on("click", self.btnBlackList_clickHandler);
 		$("#"+self.name+"_btnBlackListSave").on("click", self.btnBlackListSave_clickHandler);
+		$("#"+self.name+"_btnDial").on("click", self.btnDial_clickEventListener);
 		
 		// 악성민원인 코드를 가져온다
 //		new ETService().setSuccessFunction(function (result){
@@ -101,7 +102,6 @@
 	ctrl.sendData = function(data) {
 		var self = et.callInfo;
 		self.callData = _.cloneDeep(data);
-		
 		if (!!self.callData) {
 			if (!self.callData.tel && !!self.callData.hand_tel) { // 콜백, 인바운드 전화번호가 넘어올 때 다른 필드 사용
 				self.callData.tel = self.callData.hand_tel;
@@ -109,6 +109,17 @@
 			if (!!self.callData.tel) {
 				$("#"+self.name+"_iptHand_tel").val(self.callData.tel);
 				self.clearDivUserInfo();
+				
+				if (self.callData.viewStatus === "callback") { // 상태가 콜백인 경우
+					if (!self.callData.reserveCallbackData) {
+						$("#home_user_iptPhoneNum").val(self.callData.tel);
+						self.isAutoOpen = true;
+					}
+				} else { // 콜백 이외 상태
+					$("#home_user_iptPhoneNum").val(self.callData.tel);
+					self.isAutoOpen = true;
+				}
+				
 				
 			}
 		}
@@ -145,7 +156,6 @@
 	 */
 	ctrl.setView = function () {
 		var self = et.callInfo;
-
 		// 인풋, 버튼들 비활성 제어
 		var isInputDisabled = true;
 		var isCustSaveBtnDisabled = true;
@@ -191,23 +201,22 @@
 		}
 		
 		if (isInputDisabled) {
-			$("#"+self.name+"_iptCust_nm").attr("disabled", "disabled");
-			$("#"+self.name+"_iptClass_1").attr("disabled", "disabled");
-			$("#"+self.name+"_iptClass_2").attr("disabled", "disabled");
-			$("#"+self.name+"_iptClass_3").attr("disabled", "disabled");
+//			$("#"+self.name+"_iptCust_nm").attr("disabled", "disabled");
+//			$("#"+self.name+"_iptClass_1").attr("disabled", "disabled");
+//			$("#"+self.name+"_iptClass_2").attr("disabled", "disabled");
+//			$("#"+self.name+"_iptClass_3").attr("disabled", "disabled");
 
 			$("#"+self.name+"_taCr_mm").attr("disabled", "disabled");
-			$("#"+self.name+"_taCr_mm_add").attr("disabled", "disabled");
+//			$("#"+self.name+"_taCr_mm_add").attr("disabled", "disabled");
 		} else {
-			$("#"+self.name+"_iptCust_nm").removeAttr("disabled");
-			$("#"+self.name+"_iptClass_1").removeAttr("disabled");
-			$("#"+self.name+"_iptClass_2").removeAttr("disabled");
-			$("#"+self.name+"_iptClass_3").removeAttr("disabled");
+//			$("#"+self.name+"_iptCust_nm").removeAttr("disabled");
+//			$("#"+self.name+"_iptClass_1").removeAttr("disabled");
+//			$("#"+self.name+"_iptClass_2").removeAttr("disabled");
+//			$("#"+self.name+"_iptClass_3").removeAttr("disabled");
 
 			$("#"+self.name+"_taCr_mm").removeAttr("disabled", "disabled");
-			$("#"+self.name+"_taCr_mm_add").removeAttr("disabled", "disabled");
+//			$("#"+self.name+"_taCr_mm_add").removeAttr("disabled", "disabled");
 		}
-		
 		if (isCustSaveBtnDisabled) {
 			$("#"+self.name+"_btnSaveCustInfo").attr("disabled", "disabled");
 		} else {
@@ -278,7 +287,6 @@
 	ctrl.getCustInfoCallSucceed = function(returnData) {
 		var self = et.callInfo;
 		var data = returnData.data;
-		
 		if (!!data) {
 			self.callData.cust_id = data.cust_id;
 			self.callData.cust_nm = data.cust_nm;
@@ -300,7 +308,6 @@
 	 */
 	ctrl.makeSaveParam = function(type) {
 		var self = et.callInfo;
-		
 		self.callData.saveType = type;
 		
 		if (type === "cust" || type === "both") {
@@ -328,7 +335,6 @@
 	 */
 	ctrl.checkSaveStatus = function() {
 		var self = et.callInfo;
-		
 		if (!self.isSaved && self.statusBefore === BP_STATE.AFTER_CALL_WORK) {
 			if (!!self.callData) {
 				self.isAutoSave = true;
@@ -347,7 +353,6 @@
 		var self = et.callInfo;
 		var msg = returnData.resultMsg;
 		var data = returnData.data;
-		
 		if (msg === ETCONST.SUCCESS) {
 			if(data.saveType !== "cust") {
 				self.isSaved = true;
@@ -373,6 +378,19 @@
 	};
 	
 	// ============================== 이벤트 리스너 ==============================
+	/**
+	 * 전화 하기 버튼 클릭
+	 */
+	ctrl.btnDial_clickEventListener = _.debounce(function() {
+		var self = et.callInfo;
+		var telNumber = $("#"+self.name+"_iptHand_tel").val();
+		if (telNumber !== "") {
+			telNumber = "9"+telNumber;
+			window.bpspat.api.dialNumber(telNumber);
+		}
+	},500);
+	
+	
 	/**
 	 * 대분류 코드, 중분류 코드 클릭
 	 */

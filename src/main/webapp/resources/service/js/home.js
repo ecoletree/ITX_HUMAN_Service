@@ -530,13 +530,15 @@
 			result.data.viewStatus = self.VIEW_STATUS;
 			self.custInfo = result.data; 
 			if (self.reserveCallbackData !== null) {
-				if (self.reserveCallbackData.cust_id !== undefined) { // 예약
+				if (self.reserveCallbackData.cust_id != null && self.reserveCallbackData.cust_id !== undefined) { // 예약
 					if (self.reserveCallbackData.cust_id === result.data.cust_id) {
 						result.data.reserveCallbackData = self.reserveCallbackData;
 					}
 				} else {										// 콜백
-					if (self.reserveCallbackData.tel === result.data.hand_tel) {
+					if (self.TEL_PRIFIX_NUM+""+self.reserveCallbackData.tel === result.data.hand_tel ||
+						self.reserveCallbackData.tel === result.data.hand_tel) {
 						result.data.reserveCallbackData = self.reserveCallbackData;
+						
 					}
 				}
 			}

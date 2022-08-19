@@ -26,6 +26,7 @@
 				<div class="flexFormItem">
 					<p>인입 전화번호</p>
 					<input id="callInfo_iptHand_tel" type="text" disabled="disabled">
+					<button id="callInfo_btnDial" class="btnDial"><img src="${cp }/resources/ecoletree/img/btn_dial.png"></button>
 				</div>
 			</div>
 		</div><!-- ./wallBody -->
