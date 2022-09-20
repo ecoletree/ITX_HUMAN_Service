@@ -784,8 +784,8 @@
 		postData.cr_cd2 = $("#historyPopup_selCrCd2").val();
 		postData.cr_cd3 = $("#historyPopup_selCrCd3").val();
 //		postData.cr_cd4 = $("#historyPopup_selCrCd4").val();
-		postData.cr_mm = $("#historyPopup_taCr_mm").val();
-		postData.cr_mm_add = $("#historyPopup_taCr_mm_add").val();
+		postData.cr_mm = $("#historyPopup_taCr_mm").val().replace(/\n/g, '<br/>');
+		postData.cr_mm_add = $("#historyPopup_taCr_mm_add").val().replace(/\n/g, '<br/>');
 		postData.state_cd = $("#historyPopup_selExec_state").val();
 		
 //		var optionData = $("#historyPopup_selCrCd4").find("option:selected").data();

@@ -207,7 +207,7 @@
 //			$("#"+self.name+"_iptClass_3").attr("disabled", "disabled");
 
 			$("#"+self.name+"_taCr_mm").attr("disabled", "disabled");
-//			$("#"+self.name+"_taCr_mm_add").attr("disabled", "disabled");
+			$("#"+self.name+"_taCr_mm_add").attr("disabled", "disabled");
 		} else {
 //			$("#"+self.name+"_iptCust_nm").removeAttr("disabled");
 //			$("#"+self.name+"_iptClass_1").removeAttr("disabled");
@@ -215,7 +215,7 @@
 //			$("#"+self.name+"_iptClass_3").removeAttr("disabled");
 
 			$("#"+self.name+"_taCr_mm").removeAttr("disabled", "disabled");
-//			$("#"+self.name+"_taCr_mm_add").removeAttr("disabled", "disabled");
+			$("#"+self.name+"_taCr_mm_add").removeAttr("disabled", "disabled");
 		}
 		if (isCustSaveBtnDisabled) {
 			$("#"+self.name+"_btnSaveCustInfo").attr("disabled", "disabled");
@@ -326,7 +326,7 @@
 			self.callData.cr_cd3 = $("#"+self.name+"_ulCrCd3 > li").filter(".sel").data("cd");
 //			self.callData.cr_cd4 = $("#"+self.name+"_ulCrCd4 > li").filter(".sel").data("cd");
 			self.callData.cr_mm = $("#"+self.name+"_taCr_mm").val().replace(/\n/g, '<br/>');
-			self.callData.cr_mm = $("#"+self.name+"_taCr_mm_add").val().replace(/\n/g, '<br/>');
+			self.callData.cr_mm_add= $("#"+self.name+"_taCr_mm_add").val().replace(/\n/g, '<br/>');
 		}
 	};
 	
