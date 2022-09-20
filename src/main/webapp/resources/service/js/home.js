@@ -49,6 +49,9 @@
 	
 	ctrl.TEL_PRIFIX_NUM = 9;
 	
+	// 어드민 콜백 경로
+	ctrl.admin_path = "http://localhost:8080/ITX_HUMAN_Admin/login/doLoginSSO?tmr_id=";
+	
 	// ============================== 화면 컨트롤 ==============================
 	/**
 	 * init VIEW
@@ -113,6 +116,9 @@
 		$("#"+self.name+"_frm").submit(function( event ) {
 			et.alert.show(ETCONST.ALERT_TYPE_INFO,"","만족도 조사 메시지를 전달하였습니다.");
 		});
+		
+		// sso 연동
+		$("#home_goAdminCallBack").attr("href", self.admin_path + btoa(initData.tmr_info.tmr_id));
 		
 	};
 	
