@@ -27,7 +27,7 @@
 			</div>
 			
 			<div class="modal-body">
-				<p>접속할 BP URL을 선택해주세요.</p>
+				<p>접속할 BP URL을 선택해 주세요.</p>
 				<div class="modalFormWrap">
 					<div id="login_divUrl" class="modalForm">
 					</div>
@@ -51,7 +51,7 @@
 			</div>
 			
 			<div class="modal-body">
-				<p>보안을 위해 새로운 비밀번호로 설정해주세요.</p>
+				<p>보안을 위해 새로운 비밀번호로 설정해 주세요.</p>
 				<div class="modalFormWrap">
 					<div class="modalForm">
 						<p>아이디</p>
@@ -64,7 +64,7 @@
 					<div class="modalForm">
 						<p>신규 비밀번호</p>
 						<input id="login_div1_iptNewPW" type="password">
-						<p class="note">*영문자와 숫자를 조합하여 10자리 이상으로 설정해주세요.<br>*아이디, 기존 비밀번호와 같게 설정하실 수 없습니다.</p>
+						<p class="note">*영문자와 숫자를 조합하여 10자리 이상으로 설정해 주세요.<br>*아이디, 기존 비밀번호와 같게 설정할 수 없습니다.</p>
 					</div>
 					<div class="modalForm">
 						<p>신규 비밀번호 확인</p>
@@ -87,7 +87,7 @@
 			</div>
 			
 			<div class="modal-body">
-				<p>비밀번호를 변경한지 30일이 지났습니다.<br>보안을 위해 새로운 비밀번호로 설정해주세요.</p>
+				<p>비밀번호를 변경한지 30일이 지났습니다.<br>보안을 위해 새로운 비밀번호로 설정해 주세요.</p>
 				<div class="modalFormWrap">
 					<div class="modalForm">
 						<p>아이디</p>
@@ -100,7 +100,7 @@
 					<div class="modalForm">
 						<p>신규 비밀번호</p>
 						<input id="login_div2_iptNewPW" type="password">
-						<p class="note">*영문자와 숫자를 조합하여 10자리 이상으로 설정해주세요.<br>*아이디, 기존 비밀번호와 같게 설정하실 수 없습니다.</p>
+						<p class="note">*영문자와 숫자를 조합하여 10자리 이상으로 설정해 주세요.<br>*아이디, 기존 비밀번호와 같게 설정할 수 없습니다.</p>
 					</div>
 					<div class="modalForm">
 						<p>신규 비밀번호 확인</p>
@@ -123,7 +123,7 @@
 			</div>
 			
 			<div class="modal-body">
-				<p>일정기간 동안 접속이 없어 잠긴 계정입니다.<br>해제를 위해 비밀번호를 재설정해주세요.</p>
+				<p>일정기간 동안 접속이 없어 잠긴 계정입니다.<br>해제를 위해 비밀번호를 재설정해 주세요.</p>
 				<div class="modalFormWrap">
 					<div class="modalForm">
 						<p>아이디</p>
@@ -136,7 +136,7 @@
 					<div class="modalForm">
 						<p>신규 비밀번호</p>
 						<input id="login_div3_iptNewPW" type="password">
-						<p class="note">*영문자와 숫자를 조합하여 10자리 이상으로 설정해주세요.<br>*아이디, 기존 비밀번호와 같게 설정하실 수 없습니다.</p>
+						<p class="note">*영문자와 숫자를 조합하여 10자리 이상으로 설정해 주세요.<br>*아이디, 기존 비밀번호와 같게 설정할 수 없습니다.</p>
 					</div>
 					<div class="modalForm">
 						<p>신규 비밀번호 확인</p>

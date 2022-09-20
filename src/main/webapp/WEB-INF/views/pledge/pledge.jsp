@@ -12,7 +12,7 @@
 					<div id="pledge_div1" class="bxPledge">
 						<p id="pledge_showName1">${sessionScope.sessionVO.tmr_nm}</p>	
 						<input id="pledge_enterName1" type="text" class="inputPledge">
-						<span id="pledge_error1" style="display: none;">└내용을 확인해주세요</span>
+						<span id="pledge_error1" style="display: none;">└내용을 확인해 주세요.</span>
 					</div>
 					<span>은/는</span>
 				</div>
@@ -40,7 +40,7 @@
 					<div id="pledge_div2" class="bxPledge">
 						<p id="pledge_showName2">${sessionScope.sessionVO.tmr_nm}</p>
 						<input id="pledge_enterName2" type="text" class="inputPledge">
-						<span id="pledge_error2" style="display: none;">└내용을 확인해주세요</span>
+						<span id="pledge_error2" style="display: none;">└내용을 확인해 주세요.</span>
 					</div>
 					<strong><span id="pledge_date"></span></strong>
 				</div>
@@ -61,7 +61,7 @@
 					</div>
 					
 					<div class="modal-body">
-						<p>회사는 우리 직원들의 일과 삶의 균형을 위해 항상노력하고 있습니다.<br>도움이 필요할때는 언제든 회사와 상의해주세요.</p>
+						<p>회사는 우리 직원들의 일과 삶의 균형을 위해 항상 노력하고 있습니다.<br>도움이 필요할 때는 언제든 회사와 상의해 주세요.</p>
 						<div class="modalBtnSet">
 							<a id="pledge_btnAgree" class="btnBlue">확인</a>
 						</div>

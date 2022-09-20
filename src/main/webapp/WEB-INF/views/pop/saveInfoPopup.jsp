@@ -43,7 +43,7 @@
 					<select id="history_sel1">
 						<option value="">선택해주세요</option>
 						<option value="cust_nm">고객명</option>
-						<option value="search_tmr_nm">상담원명</option>
+						<option value="search_tmr_nm">상담사명</option>
 						<option value="team_cd">팀 명</option>
 						<option value="search_hand_tel">전화번호</option>
 						<option value="cr_mm">메모</option>
@@ -59,7 +59,7 @@
 					<select id="history_sel2">
 						<option value="">선택해주세요</option>
 						<option value="cust_nm">고객명</option>
-						<option value="search_tmr_nm">상담원명</option>
+						<option value="search_tmr_nm">상담사명</option>
 						<option value="team_cd">팀 명</option>
 						<option value="search_hand_tel">전화번호</option>
 						<option value="cr_mm">메모</option>
@@ -85,8 +85,8 @@
 							<th style="width: 50px; min-width:50px;"><div>순번</div></th>
 							<th style="width: 135px; min-width:135px;"><div>통화일자</div></th>
 							<th style="width: 80px; min-width:80px;"><div>Call ID</div></th>
-							<th style="width: 80px; min-width:80px;"><div>상담원ID</div></th>
-							<th style="width: 80px; min-width:80px;"><div>상담원명</div></th>
+							<th style="width: 80px; min-width:80px;"><div>상담사ID</div></th>
+							<th style="width: 80px; min-width:80px;"><div>상담사명</div></th>
 							<th style="width: 200px; min-width:200px;"><div>고객아이디</div></th>
 							<th style="width: 80px; min-width:80px;"><div>고객명</div></th>
 							<th style="width: 110px; min-width:110px;"><div>전화번호</div></th>
@@ -120,7 +120,7 @@
 				<div class="wallBody">
 					<div class="row">
 						<div class="col-xs-3">
-							<p>상담원 명</p>
+							<p>상담사명</p>
 							<input id="historyPopup_iptTmr_nm" type="text" disabled="disabled">
 						</div>
 						<div class="col-xs-3">

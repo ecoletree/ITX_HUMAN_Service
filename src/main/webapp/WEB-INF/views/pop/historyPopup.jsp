@@ -263,7 +263,7 @@ function appendOption(sId, sValue, sLabel) {
 		<div class="wallBody">
 			<div class="row">
 				<div class="col-xs-3">
-					<p>상담원 명</p>
+					<p>상담사명</p>
 					<input id="historyPopup_iptTmr_nm" type="text" disabled="disabled">
 				</div>
 				<div class="col-xs-3">
